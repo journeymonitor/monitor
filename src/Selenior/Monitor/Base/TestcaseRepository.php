@@ -33,8 +33,9 @@ class TestcaseRepository
     public function getAll() {
         $results = [];
         $sql = 'SELECT id, userId, cadence, script FROM testcases';
-        foreach($this->dbConnection->query($sql) as $row) {
-            $results[] = new TestcaseModel($row->id, $row->userId, $row->cadence, $row->script);
+        $rows = $this->dbConnection->query($sql)->fetch(PDO::FETCH_ASSOC);
+        foreach ($rows as $row) {
+            $results[] = new TestcaseModel($row['id'], $row['userId'], $row['cadence'], $row['script']);
         }
         return $results;
     }
