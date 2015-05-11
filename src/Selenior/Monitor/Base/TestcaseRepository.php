@@ -21,7 +21,8 @@ class TestcaseRepository
         $sql = 'SELECT id, userId, cadence, script FROM testcases WHERE id = :id';
         $stmt = $this->dbConnection->prepare($sql);
         $stmt->bindValue(':id', $id, \PDO::PARAM_STR);
-        $row = $this->dbConnection->execute($stmt);
+        $stmt->execute();
+        $row = $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
         return new TestcaseModel($row['id'], $row['userId'], $row['cadence'], $row['script']);
     }
     
