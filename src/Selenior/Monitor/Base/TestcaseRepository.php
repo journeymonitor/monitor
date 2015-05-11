@@ -30,6 +30,15 @@ class TestcaseRepository
         $stmt->execute();
     }
 
+    public function getAll() {
+        $results = [];
+        $sql = 'SELECT id, userId, cadence, script FROM testcases';
+        foreach($this->dbConnection->query($sql) as $row) {
+            $results[] = new TestcaseModel($row->id, $row->userId, $row->cadence, $row->script);
+        }
+        return $results;
+    }
+
     private function remove(TestcaseModel $testcaseModel)
     {
         $sql = 'DELETE FROM testcases WHERE id = :id';
