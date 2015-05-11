@@ -16,6 +16,15 @@ class TestcaseRepository
                              script TEXT)");
     }
 
+    public function getById($id)
+    {
+        $sql = 'SELECT id, userId, cadence, script FROM testcases WHERE id = :id';
+        $stmt = $this->dbConnection->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $row = $this->dbConnection->query($sql);
+        return new TestcaseModel($row['id'], $row['userId'], $row['cadence'], $row['script']);
+    }
+    
     public function add(TestcaseModel $testcaseModel)
     {
         $this->remove($testcaseModel);
