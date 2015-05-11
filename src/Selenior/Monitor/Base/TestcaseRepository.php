@@ -20,8 +20,8 @@ class TestcaseRepository
     {
         $sql = 'SELECT id, userId, cadence, script FROM testcases WHERE id = :id';
         $stmt = $this->dbConnection->prepare($sql);
-        $stmt->bindValue(':id', $id);
-        $row = $this->dbConnection->query($sql);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_STR);
+        $row = $this->dbConnection->execute($stmt);
         return new TestcaseModel($row['id'], $row['userId'], $row['cadence'], $row['script']);
     }
     
