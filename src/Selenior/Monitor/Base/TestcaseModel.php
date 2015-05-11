@@ -5,14 +5,14 @@ namespace Selenior\Monitor\Base;
 class TestcaseModel
 {
     private $id;
-    private $name;
+    private $title;
     private $notifyEmail;
     private $cadence;
     private $script;
 
-    public function __construct($id, $name, $notifyEmail, $cadence, $script) {
+    public function __construct($id, $title, $notifyEmail, $cadence, $script) {
         $this->id = $id;
-        $this->name = $name;
+        $this->title = $title;
         $this->notifyEmail = $notifyEmail;
         $this->cadence = $cadence;
         $this->script = $script;
@@ -22,8 +22,8 @@ class TestcaseModel
         return $this->id;
     }
 
-    public function getName() {
-        return $this->name;
+    public function getTitle() {
+        return $this->title;
     }
 
     public function getNotifyEmail() {
