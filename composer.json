@@ -1,0 +1,13 @@
+{
+    "name": "selenior/monitor-base",
+    "description": "",
+    "authors": [
+        {
+            "name": "Manuel Kiessling",
+            "email": "manuel@kiessling.net"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"Selenior": "src/"}
+    }
+}
