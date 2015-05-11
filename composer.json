@@ -1,6 +1,6 @@
 {
     "name": "selenior/monitor-base",
-    "description": "",
+    "description": "Provides classes that are shared in several MONITOR projects",
     "authors": [
         {
             "name": "Manuel Kiessling",

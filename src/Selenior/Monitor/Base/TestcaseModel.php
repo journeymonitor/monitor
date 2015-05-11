@@ -2,8 +2,8 @@
 
 namespace Selenior\Monitor\Base;
 
-class TestcaseModel {
-
+class TestcaseModel
+{
     private $id;
     private $userId;
     private $cadence;
@@ -35,5 +35,4 @@ class TestcaseModel {
     public function setScript($script) {
         $this->script = $script;
     }
-
 }

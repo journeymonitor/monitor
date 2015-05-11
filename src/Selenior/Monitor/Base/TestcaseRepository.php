@@ -2,11 +2,12 @@
 
 namespace Selenior\Monitor\Base;
 
-class TestcaseRepository {
-
+class TestcaseRepository
+{
     private $dbConnection;
 
-    public function __construct(\PDO $dbConnection) {
+    public function __construct(\PDO $dbConnection)
+    {
         $this->dbConnection = $dbConnection;
         $dbConnection->exec("CREATE TABLE IF NOT EXISTS testcases (
                              id TEXT PRIMARY KEY,
@@ -15,7 +16,8 @@ class TestcaseRepository {
                              script TEXT)");
     }
 
-    public function add(TestcaseModel $testcaseModel) {
+    public function add(TestcaseModel $testcaseModel)
+    {
         $this->remove($testcaseModel);
         $sql = 'INSERT INTO testcases (id, userId, cadence, script) VALUES (:id, :userId, :cadence, :script)';
         $stmt = $this->dbConnection->prepare($sql);
@@ -28,7 +30,8 @@ class TestcaseRepository {
         $stmt->execute();
     }
 
-    private function remove(TestcaseModel $testcaseModel) {
+    private function remove(TestcaseModel $testcaseModel)
+    {
         $sql = 'DELETE FROM testcases WHERE id = :id';
         $stmt = $this->dbConnection->prepare($sql);
 
@@ -36,5 +39,4 @@ class TestcaseRepository {
 
         $stmt->execute();
     }
-
 }
