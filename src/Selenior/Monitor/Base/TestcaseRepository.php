@@ -60,4 +60,10 @@ class TestcaseRepository
 
         $stmt->execute();
     }
+
+    private function removeAll()
+    {
+        $sql = 'DELETE FROM testcases';
+        $this->dbConnection->exec($sql);
+    }
 }
