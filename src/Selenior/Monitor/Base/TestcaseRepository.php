@@ -51,6 +51,12 @@ class TestcaseRepository
         return $results;
     }
 
+    public function removeAll()
+    {
+        $sql = 'DELETE FROM testcases';
+        $this->dbConnection->exec($sql);
+    }
+
     private function remove(TestcaseModel $testcaseModel)
     {
         $sql = 'DELETE FROM testcases WHERE id = :id';
@@ -60,4 +66,5 @@ class TestcaseRepository
 
         $stmt->execute();
     }
+
 }
