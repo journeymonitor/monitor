@@ -18,7 +18,7 @@ $endpoint = $argv[1];
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
-$testcaseRepository = new TestcaseRepository(new PDO('sqlite:/var/tmp/selenior-monitor.sqlite' . $environmentName));
+$testcaseRepository = new TestcaseRepository(new PDO('sqlite:/var/tmp/selenior-monitor.sqlite-' . $environmentName));
 
 $importer = new Importer(new Client(), $endpoint, $testcaseRepository, new ScriptTransformer());
 $importer->run();

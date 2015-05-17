@@ -6,9 +6,9 @@ class EnvironmentInfo
 {
     public function getName()
     {
-        $env = getenv("PHP_ENV");
+        $env = getenv('PHP_ENV');
         if (!$env) {
-            $env = "dev";
+            $env = 'dev';
         }
         return $env;
     }

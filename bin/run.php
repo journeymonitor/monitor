@@ -17,7 +17,7 @@ $testcaseId = $argv[1];
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
-$testcaseRepository = new TestcaseRepository(new PDO('sqlite:/var/tmp/selenior-monitor.sqlite' . $environmentName));
+$testcaseRepository = new TestcaseRepository(new PDO('sqlite:/var/tmp/selenior-monitor.sqlite-' . $environmentName));
 
 $runner = new Runner($testcaseRepository, '/var/tmp', $testcaseId);
 $runner->prepare();
