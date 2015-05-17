@@ -24,9 +24,9 @@ class Creator
             file_put_contents(
                 $this->directory . DIRECTORY_SEPARATOR . 'selenior-run-testcase-'.$testcaseModel->getId(),
                 $testcaseModel->getCadence() .
-                    ' * * * * root cd /tmp && export PHP_ENV=' .
+                    ' * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=' .
                     $this->environmentName .
-                    ' && sudo -u selenior -H /usr/bin/php /opt/selenior/monitor/bin/run.php ' .
+                    ' /usr/bin/php /opt/selenior/monitor/bin/run.php ' .
                     $testcaseModel->getId() .
                     ' >> /var/tmp/selenior-run-testcase-' . $testcaseModel->getId() . '-cronjob.log 2>&1' .
                     "\n"

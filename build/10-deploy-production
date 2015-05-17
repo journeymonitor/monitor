@@ -6,5 +6,4 @@ rsync -ac --stats $2/ /opt/selenior/monitor/ || exit 1
 
 cd /opt/selenior/monitor/
 
-export PHP_ENV=prod
-sudo -u selenior /usr/bin/php ./vendor/davedevelopment/phpmig/bin/phpmig migrate || exit 1
+sudo -u selenior PHP_ENV=prod /usr/bin/php ./vendor/davedevelopment/phpmig/bin/phpmig migrate || exit 1
