@@ -13,5 +13,5 @@ $environmentName = $environmentInfo->getName();
 
 $testcaseRepository = new TestcaseRepository(new \PDO('sqlite:/var/tmp/selenior-monitor.sqlite' . $environmentName));
 
-$creator = new Creator($testcaseRepository, '/etc/cron.d');
+$creator = new Creator($testcaseRepository, '/etc/cron.d', $environmentName);
 $creator->run();

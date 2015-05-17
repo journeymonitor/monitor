@@ -8,11 +8,13 @@ class Creator
 {
     private $testcaseRepository;
     private $directory;
+    private $environmentName;
     
-    public function __construct($testcaseRepository, $directory)
+    public function __construct($testcaseRepository, $directory, $environmentName)
     {
         $this->testcaseRepository = $testcaseRepository;
         $this->directory = $directory;
+        $this->environmentName = $environmentName;
     }
     
     public function run()
@@ -22,7 +24,9 @@ class Creator
             file_put_contents(
                 $this->directory . DIRECTORY_SEPARATOR . 'selenior-run-testcase-'.$testcaseModel->getId(),
                 $testcaseModel->getCadence() .
-                    ' * * * * root cd /tmp && sudo -u selenior -H /usr/bin/php /opt/selenior/monitor/bin/run.php ' .
+                    ' * * * * root cd /tmp && export PHP_ENV=' .
+                    $this->environmentName .
+                    ' && sudo -u selenior -H /usr/bin/php /opt/selenior/monitor/bin/run.php ' .
                     $testcaseModel->getId() .
                     ' >> /var/tmp/selenior-run-testcase-' . $testcaseModel->getId() . '-cronjob.log 2>&1' .
                     "\n"
