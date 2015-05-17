@@ -12,9 +12,9 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
     private $vfsRoot;
     
     public function test() {
-        $stubTestcaseModel1 = new TestcaseModel('a', '1', 'x@y.com', '*/5', 'foo');
-        $stubTestcaseModel2 = new TestcaseModel('b', '1', 'x@y.com', '*/15', 'foo');
-        $stubTestcaseModel3 = new TestcaseModel('c', '2', 'x@y.com', '*/7', 'foo');
+        $stubTestcaseModel1 = new TestcaseModel('a', 't1', 'x@y.com', '*/5', 'foo a');
+        $stubTestcaseModel2 = new TestcaseModel('b', 't2', 'x@y.com', '*/15', 'foo b');
+        $stubTestcaseModel3 = new TestcaseModel('c', 't3', 'x@y.com', '*/7', 'foo c');
         
         $mockTestcaseRepository = $this->getMockBuilder('TestcaseRepository')
             ->setMethods(array('getAll'))
@@ -31,17 +31,32 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
         $creator->run(); // Running twice to ensure that file content is completely overwritten
 
         $this->assertSame(
-            'MAILTO=""' . "\n" . '*/5 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php a >> /var/tmp/selenior-run-testcase-a-cronjob.log 2>&1' . "\n",
+            'MAILTO=""' .
+                "\n" .
+                '# t1' .
+                "\n" .
+                '*/5 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php a >> /var/tmp/selenior-run-testcase-a-cronjob.log 2>&1' .
+                "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-a')
         );
 
         $this->assertSame(
-            'MAILTO=""' . "\n" . '*/15 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php b >> /var/tmp/selenior-run-testcase-b-cronjob.log 2>&1' . "\n",
+            'MAILTO=""' .
+                "\n" .
+                '# t2' .
+                "\n" .
+                '*/15 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php b >> /var/tmp/selenior-run-testcase-b-cronjob.log 2>&1' .
+                "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-b')
         );
 
         $this->assertSame(
-            'MAILTO=""' . "\n" . '*/7 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php c >> /var/tmp/selenior-run-testcase-c-cronjob.log 2>&1' . "\n",
+            'MAILTO=""' .
+                "\n" .
+                '# t3' .
+                "\n" .
+                '*/7 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php c >> /var/tmp/selenior-run-testcase-c-cronjob.log 2>&1' .
+                "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-c')
         );
     }

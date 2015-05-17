@@ -23,6 +23,9 @@ class Creator
                 $this->directory . DIRECTORY_SEPARATOR . 'selenior-run-testcase-'.$testcaseModel->getId(),
                 'MAILTO=""' .
                     "\n" .
+                    '# ' .
+                    $testcaseModel->getTitle() .
+                    "\n" .
                     $testcaseModel->getCadence() .
                     ' * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=' .
                     $this->environmentName .
