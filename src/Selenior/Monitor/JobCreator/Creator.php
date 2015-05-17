@@ -23,7 +23,9 @@ class Creator
         foreach ($testcaseModels as $testcaseModel) {
             file_put_contents(
                 $this->directory . DIRECTORY_SEPARATOR . 'selenior-run-testcase-'.$testcaseModel->getId(),
-                $testcaseModel->getCadence() .
+                'MAILTO=""' .
+                    "\n" .
+                    $testcaseModel->getCadence() .
                     ' * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=' .
                     $this->environmentName .
                     ' /usr/bin/php /opt/selenior/monitor/bin/run.php ' .

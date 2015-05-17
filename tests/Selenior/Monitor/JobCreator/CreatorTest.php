@@ -31,17 +31,17 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
         $creator->run(); // Running twice to ensure that file content is completely overwritten
 
         $this->assertSame(
-            '*/5 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php a >> /var/tmp/selenior-run-testcase-a-cronjob.log 2>&1'."\n",
+            'MAILTO=""' . "\n" . '*/5 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php a >> /var/tmp/selenior-run-testcase-a-cronjob.log 2>&1' . "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-a')
         );
 
         $this->assertSame(
-            '*/15 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php b >> /var/tmp/selenior-run-testcase-b-cronjob.log 2>&1'."\n",
+            'MAILTO=""' . "\n" . '*/15 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php b >> /var/tmp/selenior-run-testcase-b-cronjob.log 2>&1' . "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-b')
         );
 
         $this->assertSame(
-            '*/7 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php c >> /var/tmp/selenior-run-testcase-c-cronjob.log 2>&1'."\n",
+            'MAILTO=""' . "\n" . '*/7 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php c >> /var/tmp/selenior-run-testcase-c-cronjob.log 2>&1' . "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-c')
         );
     }
