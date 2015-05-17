@@ -2,8 +2,6 @@
 
 namespace Selenior\Monitor\JobCreator;
 
-use Selenior\Monitor\Base\TestcaseRepository;
-
 class Creator
 {
     private $testcaseRepository;
