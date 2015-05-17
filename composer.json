@@ -1,6 +1,6 @@
 {
-    "name": "selenior/monitor-base",
-    "description": "Provides classes that are shared in several MONITOR projects",
+    "name": "selenior/monitor",
+    "description": "Code for MONITOR domain",
     "authors": [
         {
             "name": "Manuel Kiessling",
@@ -9,5 +9,19 @@
     ],
     "autoload": {
         "psr-0": {"Selenior": "src/"}
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "davedevelopment/phpmig": "*",
+        "pimple/pimple": "1.*",
+        "guzzlehttp/guzzle": "~5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.6.*",
+        "mikey179/vfsStream": "1.5.*"
+    },
+    "config": {
+        "bin-dir": "bin/"
     }
 }

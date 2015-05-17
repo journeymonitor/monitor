@@ -9,12 +9,6 @@ class TestcaseRepository
     public function __construct(\PDO $dbConnection)
     {
         $this->dbConnection = $dbConnection;
-        $dbConnection->exec("CREATE TABLE IF NOT EXISTS testcases (
-                             id TEXT PRIMARY KEY,
-                             title TEXT,
-                             notifyEmail TEXT,
-                             cadence TEXT,
-                             script TEXT)");
     }
 
     public function getById($id)
