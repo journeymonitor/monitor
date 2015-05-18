@@ -13,6 +13,8 @@ at {datetimeRun}, your test case "{title}" failed with the following output:
 
 {output}
 
+The POSIX exit code was {exitCode}.
+
 Disable checks and notifications for this testcase:
 http://journeymonitor.com/testcases/disable/{id}
 
@@ -32,6 +34,7 @@ EOT;
         $body = str_replace('{datetimeRun}', $testresultModel->getDatetimeRun()->format(\DateTime::RFC850), $body);
         $body = str_replace('{title}', $testresultModel->getTestcase()->getTitle(), $body);
         $body = str_replace('{output}', $output, $body);
+        $body = str_replace('{exitCode}', $testresultModel->getExitCode(), $body);
         $body = str_replace('{id}', $testresultModel->getTestcase()->getId(), $body);
 
         if ($testresultModel->getExitCode() != 0) {
