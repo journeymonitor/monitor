@@ -54,6 +54,13 @@ class Runner
         );
         unlink('/var/tmp/selenior-xvfb-screen-' . $jobId);
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-exit-status');
-        return new TestresultModel($this->testcaseModel, new \DateTime('now'), $exitCode, $output);
+
+        if ($exitCode === 1) { // Internal selenium-runner error, retry
+            print_r($output);
+            print('Internal selenium-runner error, trying again...');
+            return $this->run();
+        } else {
+            return new TestresultModel($this->testcaseModel, new \DateTime('now'), $exitCode, $output);
+        }
     }
 }
