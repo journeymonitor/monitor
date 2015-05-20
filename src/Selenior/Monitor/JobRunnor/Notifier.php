@@ -25,13 +25,13 @@ Here is the output from our system:
 {output}
 
 Edit this testcase:
-http://journeymonitor.com/testcases/edit/{id}
+http://journeymonitor.com/testcases/{id}
 
 Disable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/disable/{id}
+http://journeymonitor.com/testcases/{id}/disable
 
 Re-enable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/enable/{id}
+http://journeymonitor.com/testcases/{id}/enable
 
 Sincerely,
 --
@@ -52,11 +52,14 @@ at {datetimeRun}, your test case "{title}" failed with the following output:
 
 {output}
 
+Edit this testcase:
+http://journeymonitor.com/testcases/{id}
+
 Disable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/disable/{id}
+http://journeymonitor.com/testcases/{id}/disable
 
 Re-enable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/enable/{id}
+http://journeymonitor.com/testcases/{id}/enable
 
 Sincerely,
 --
