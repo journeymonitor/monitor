@@ -41,7 +41,7 @@ EOT;
 
 
         // The test case itself ran, but failed
-        if ($testresultModel->getExitCode() === 3) {
+        if ($testresultModel->getExitCode() === 2 || $testresultModel->getExitCode() === 3) {
 
             $sendmail = true;
             $subject = '⚠ [JourneyMonitor] Testcase "' . $testresultModel->getTestcase()->getTitle() . '" failed!';
