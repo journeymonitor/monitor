@@ -71,7 +71,9 @@ EOT;
             $outputLines = $testresultModel->getOutput();
             $output = '';
             foreach ($outputLines as $outputLine) {
-                $output .= $outputLine . "\n";
+                if (stristr($outputLine, '[ERROR] Command') || stristr($outputLine, '[ERROR] ErrorTestCase')) {
+                    $output .= $outputLine . "\n";
+                }
             }
             $body = str_replace('{datetimeRun}', $testresultModel->getDatetimeRun()->format(\DateTime::RFC850), $body);
             $body = str_replace('{title}', $testresultModel->getTestcase()->getTitle(), $body);
