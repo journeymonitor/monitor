@@ -75,6 +75,12 @@ EOT;
                     $output .= $outputLine . "\n";
                 }
             }
+
+            if (stristr($outputLines, 'UnreachableBrowserException')) {
+                print('Not sending notification mail because we had a UnreachableBrowserException.');
+                return;
+            }
+
             $body = str_replace('{datetimeRun}', $testresultModel->getDatetimeRun()->format(\DateTime::RFC850), $body);
             $body = str_replace('{title}', $testresultModel->getTestcase()->getTitle(), $body);
             $body = str_replace('{output}', $output, $body);
