@@ -37,9 +37,9 @@ class Runner
 
         touch('/var/tmp/selenior-xvfb-screen-' . $jobId);
 
-        date_default_timezone_set('Europe/Berlin');
         $output = [];
         $exitCode = 0;
+        sleep(rand(0, 10)); // Firefoxes should not be started in parallel
         exec(
             '/bin/bash ' .
                 __DIR__ . DIRECTORY_SEPARATOR . '../../../../bin/run-testcase.sh ' .
