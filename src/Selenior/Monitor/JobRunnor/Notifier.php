@@ -2,6 +2,8 @@
 
 namespace Selenior\Monitor\JobRunnor;
 
+use Selenior\Monitor\Base\TestresultModel;
+
 class Notifier
 {
     public function handle(TestresultModel $testresultModel)

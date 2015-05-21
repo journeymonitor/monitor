@@ -2,6 +2,8 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:$PATH
 
+mkdir -p /opt/selenior/monitor
+
 rsync -ac --stats $2/ /opt/selenior/monitor/ || exit 1
 
 cd /opt/selenior/monitor/

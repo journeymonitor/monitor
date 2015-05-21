@@ -2,7 +2,7 @@
 
 namespace Selenior\Monitor\JobRunnor;
 
-use Selenior\Monitor\Base\TestcaseRepository;
+use Selenior\Monitor\Base\TestresultModel;
 
 class Runner
 {
@@ -25,7 +25,7 @@ class Runner
         );
     }
     
-    public function run()
+    public function run($retry = 0)
     {
         $found = false;
         while (!$found) {
@@ -55,12 +55,12 @@ class Runner
         unlink('/var/tmp/selenior-xvfb-screen-' . $jobId);
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-exit-status');
 
-        if ($exitCode === 1) { // Internal selenium-runner error, retry
+        if ($exitCode === 1 && $retry < 1) { // Internal selenium-runner error, retry
             print_r($output);
-            print('Internal selenium-runner error, trying again...');
-            return $this->run();
+            print('Internal selenium-runner error, trying again...' . "\n");
+            return $this->run($retry + 1);
         } else {
-            return new TestresultModel($this->testcaseModel, new \DateTime('now'), $exitCode, $output);
+            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, new \DateTime('now'), $exitCode, $output);
         }
     }
 }
