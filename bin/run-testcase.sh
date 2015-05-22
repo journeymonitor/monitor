@@ -5,7 +5,7 @@
     --driver phantomjs \
     --width 1280 \
     --height 720 \
-    --screenshot-on-fail /var/tmp \
+    --screenshot-on-fail /var/tmp/selenior-screenshots \
     --strict-exit-code \
     $2
 STATUS=$?
