@@ -15,7 +15,7 @@ class TestresultRepository
 
     public function add(TestresultModel $testresultModel)
     {
-        $sql = 'INSERT INTO testresults (id, testcaseId, datetimeRun, exitCode, output) VALUES (:id, :testcaseId, :datetimeRun, :exitCode, :output)';
+        $sql = 'INSERT INTO testresults (id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename) VALUES (:id, :testcaseId, :datetimeRun, :exitCode, :output, :failScreenshotFilename)';
         $stmt = $this->dbConnection->prepare($sql);
 
         $stmt->bindValue(':id', $testresultModel->getId());
@@ -23,13 +23,14 @@ class TestresultRepository
         $stmt->bindValue(':datetimeRun', $testresultModel->getDatetimeRun()->format('Y-m-d H:i:s'));
         $stmt->bindValue(':exitCode', $testresultModel->getExitCode());
         $stmt->bindValue(':output', implode("\n", $testresultModel->getOutput()));
+        $stmt->bindValue(':failScreenshotFilename', $testresultModel->getFailScreenshotFilename());
 
         $stmt->execute();
     }
 
     public function getAll() {
         $results = [];
-        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output FROM testresults';
+        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename FROM testresults';
         foreach ($this->dbConnection->query($sql) as $row) {
             $results[] = $this->rowToTestresultModel($row);
         }
@@ -38,7 +39,7 @@ class TestresultRepository
 
     public function getAllSince(\DateTimeInterface $datetime) {
         $results = [];
-        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output FROM testresults WHERE datetimeRun > "'.$datetime->format('Y-m-d H:i:s').'"';
+        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename FROM testresults WHERE datetimeRun > "'.$datetime->format('Y-m-d H:i:s').'"';
         foreach ($this->dbConnection->query($sql) as $row) {
             $results[] = $this->rowToTestresultModel($row);
         }
@@ -67,7 +68,8 @@ class TestresultRepository
             $this->testcaseRepository->getById($row['testcaseId']),
             new \DateTime($row['datetimeRun']),
             $row['exitCode'],
-            explode("\n", $row['output'])
+            explode("\n", $row['output']),
+            $row['failScreenshotFilename']
         );
     }
 }

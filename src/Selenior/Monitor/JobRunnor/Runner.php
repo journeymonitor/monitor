@@ -35,11 +35,12 @@ class Runner
             }
         }
 
-        touch('/var/tmp/selenior-xvfb-screen-' . $jobId);
+        touch('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
 
         $output = [];
         $exitCode = 0;
         sleep(rand(0, 10)); // Firefoxes should not be started in parallel
+        $datetimeRun = new \DateTime('now');
         exec(
             '/bin/bash ' .
                 __DIR__ . DIRECTORY_SEPARATOR . '../../../../bin/run-testcase.sh ' .
@@ -52,15 +53,22 @@ class Runner
             $output,
             $exitCode
         );
-        unlink('/var/tmp/selenior-xvfb-screen-' . $jobId);
+        unlink('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-exit-status');
 
-        if ($exitCode === 1 && $retry < 1) { // Internal selenium-runner error, retry
+        if ($exitCode === 1 && $retry < 5) { // Internal selenium-runner error, retry
             print_r($output);
             print('Internal selenium-runner error, trying again...' . "\n");
             return $this->run($retry + 1);
         } else {
-            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, new \DateTime('now'), $exitCode, $output);
+            $failScreenshotFilename = null;
+            foreach ($output as $line) {
+                //[2015-05-22 20:48:21.939] [INFO] - captured screenshot: /var/tmp/selenior-screenshots/test_20150522_204820088_3_fail.png
+                if (strstr($line, '[INFO] - captured screenshot: ')) {
+                    $failScreenshotFilename = substr($line, 86);
+                }
+            }
+            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilename);
         }
     }
 }

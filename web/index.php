@@ -29,11 +29,12 @@ foreach ($testresultModels as $testresultModel) {
     }
 
     $testresultsArray[] = [
-        'id'          => $testresultModel->getId(),
-        'testcaseId'  => $testresultModel->getTestcase()->getId(),
-        'datetimeRun' => $testresultModel->getDatetimeRun()->format('Y-m-d H:i:s'),
-        'exitCode'    => $testresultModel->getExitCode(),
-        'output'      => $output,
+        'id'                     => $testresultModel->getId(),
+        'testcaseId'             => $testresultModel->getTestcase()->getId(),
+        'datetimeRun'            => $testresultModel->getDatetimeRun()->format('Y-m-d H:i:s'),
+        'exitCode'               => $testresultModel->getExitCode(),
+        'output'                 => implode("\n", $testresultModel->getOutput()),
+        'failScreenshotFilename' => $testresultModel->getFailScreenshotFilename(),
     ];
 }
 
