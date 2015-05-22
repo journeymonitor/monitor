@@ -66,6 +66,14 @@ class Runner
                 //[2015-05-22 20:48:21.939] [INFO] - captured screenshot: /var/tmp/selenior-screenshots/test_20150522_204820088_3_fail.png
                 if (strstr($line, '[INFO] - captured screenshot: ')) {
                     $failScreenshotFilename = substr($line, 86);
+                    $failScreenshotFilename = substr($failScreenshotFilename, 0, -4);
+                    exec(
+                        '/usr/bin/convert /var/tmp/selenior-screenshots/' .
+                        $failScreenshotFilename .
+                        '.png -resize 256 /var/tmp/selenior-screenshots/' .
+                        $failScreenshotFilename .
+                        '_256.png'
+                    );
                 }
             }
             return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilename);
