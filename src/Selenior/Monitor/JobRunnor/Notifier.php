@@ -27,13 +27,13 @@ Here is the output from our system:
 {output}
 
 Edit this testcase:
-http://journeymonitor.com/testcases/{id}
+http://journeymonitor.com/testcases/{testcaseId}
 
 Disable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/{id}/disable
+http://journeymonitor.com/testcases/{testcaseId}/disable
 
 Re-enable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/{id}/enable
+http://journeymonitor.com/testcases/{testcaseId}/enable
 
 Sincerely,
 --
@@ -54,14 +54,17 @@ at {datetimeRun}, your test case "{title}" failed with the following output:
 
 {output}
 
+See all details and a screenshot of the problem:
+http://journeymonitor.com/testresults/{testresultId}
+
 Edit this testcase:
-http://journeymonitor.com/testcases/{id}
+http://journeymonitor.com/testcases/{testcaseId}
 
 Disable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/{id}/disable
+http://journeymonitor.com/testcases/{testcaseId}/disable
 
 Re-enable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/{id}/enable
+http://journeymonitor.com/testcases/{testcaseId}/enable
 
 Sincerely,
 --
@@ -87,7 +90,8 @@ EOT;
             $body = str_replace('{title}', $testresultModel->getTestcase()->getTitle(), $body);
             $body = str_replace('{output}', $output, $body);
             $body = str_replace('{exitCode}', $testresultModel->getExitCode(), $body);
-            $body = str_replace('{id}', $testresultModel->getTestcase()->getId(), $body);
+            $body = str_replace('{testresultId}', $testresultModel->getId(), $body);
+            $body = str_replace('{testcaseId}', $testresultModel->getTestcase()->getId(), $body);
 
             mail(
                 $testresultModel->getTestcase()->getNotifyEmail(),
