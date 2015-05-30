@@ -9,6 +9,7 @@ class TestresultModel
     private $exitCode;
     private $output;
     private $failScreenshotFilename;
+    private $har;
 
     public static function generateId() {
         return strtoupper(sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
@@ -33,7 +34,7 @@ class TestresultModel
         ));
     }
 
-    public function __construct($id, TestcaseModel $testcase, $datetimeRun, $exitCode, $output, $failScreenshotFilename)
+    public function __construct($id, TestcaseModel $testcase, $datetimeRun, $exitCode, $output, $failScreenshotFilename, $har)
     {
         $this->id = $id;
         $this->testcase = $testcase;
@@ -41,6 +42,7 @@ class TestresultModel
         $this->exitCode = $exitCode;
         $this->output = $output;
         $this->failScreenshotFilename = $failScreenshotFilename;
+        $this->har = $har;
     }
 
     public function getId()
@@ -71,5 +73,10 @@ class TestresultModel
     public function getFailscreenshotFilename()
     {
         return $this->failScreenshotFilename;
+    }
+
+    public function getHar()
+    {
+        return $this->har;
     }
 }

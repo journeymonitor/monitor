@@ -21,13 +21,6 @@ $testresultModels = $testresultRepository->getAllSince((new \DateTime())->modify
 
 $testresultsArray = [];
 foreach ($testresultModels as $testresultModel) {
-
-    $outputLines = $testresultModel->getOutput();
-    $output = '';
-    foreach ($outputLines as $outputLine) {
-        $output .= $outputLine . "\n";
-    }
-
     $testresultsArray[] = [
         'id'                     => $testresultModel->getId(),
         'testcaseId'             => $testresultModel->getTestcase()->getId(),
@@ -35,6 +28,7 @@ foreach ($testresultModels as $testresultModel) {
         'exitCode'               => $testresultModel->getExitCode(),
         'output'                 => implode("\n", $testresultModel->getOutput()),
         'failScreenshotFilename' => $testresultModel->getFailScreenshotFilename(),
+        'har'                    => $testresultModel->getHar(),
     ];
 }
 

@@ -30,21 +30,32 @@ class Runner
         $found = false;
         while (!$found) {
             $jobId = mt_rand(1, 999999999);
-            if (!file_exists('/var/tmp/selenior-xvfb-screen-' . $jobId)) {
+            if (!file_exists('/var/tmp/selenior-testcase-run-' . $jobId . '.lock')) {
                 $found = true;
+                touch('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
             }
         }
 
-        touch('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
+        $found = false;
+        while (!$found) {
+            $proxyPort = mt_rand(9091, 60000);
+            if (!file_exists('/var/tmp/selenior-testcase-run-proxyport-' . $proxyPort . '.lock')) {
+                $found = true;
+                touch('/var/tmp/selenior-testcase-run-proxyport-' . $proxyPort . '.lock');
+            }
+        }
 
         $output = [];
         $exitCode = 0;
-        sleep(rand(0, 10)); // Firefoxes should not be started in parallel
+        sleep(mt_rand(0, 10)); // Firefoxes should not be started in parallel it seems
         $datetimeRun = new \DateTime('now');
+
         exec(
             '/bin/bash ' .
                 __DIR__ . DIRECTORY_SEPARATOR . '../../../../bin/run-testcase.sh ' .
                 $jobId .
+                ' ' .
+                $proxyPort .
                 ' ' .
                 $this->directory . DIRECTORY_SEPARATOR . 'selenior-testcase-' . $this->testcaseModel->getId() . '.html ' .
                 '2>&1 ' .
@@ -53,7 +64,12 @@ class Runner
             $output,
             $exitCode
         );
+
+        $har = file_get_contents('/var/tmp/selenior-testcase-run-' . $jobId . '-har');
+
+        unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-har');
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
+        unlink('/var/tmp/selenior-testcase-run-proxyport-' . $jobId . '.lock');
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-exit-status');
 
         if ($exitCode === 1 && $retry < 5) { // Internal selenium-runner error, retry
@@ -76,7 +92,8 @@ class Runner
                     );
                 }
             }
-            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilename);
+
+            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilename, (string)$har);
         }
     }
 }

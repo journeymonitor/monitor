@@ -15,7 +15,7 @@ class TestresultRepository
 
     public function add(TestresultModel $testresultModel)
     {
-        $sql = 'INSERT INTO testresults (id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename) VALUES (:id, :testcaseId, :datetimeRun, :exitCode, :output, :failScreenshotFilename)';
+        $sql = 'INSERT INTO testresults (id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har) VALUES (:id, :testcaseId, :datetimeRun, :exitCode, :output, :failScreenshotFilename, :har)';
         $stmt = $this->dbConnection->prepare($sql);
 
         $stmt->bindValue(':id', $testresultModel->getId());
@@ -24,13 +24,14 @@ class TestresultRepository
         $stmt->bindValue(':exitCode', $testresultModel->getExitCode());
         $stmt->bindValue(':output', implode("\n", $testresultModel->getOutput()));
         $stmt->bindValue(':failScreenshotFilename', $testresultModel->getFailScreenshotFilename());
+        $stmt->bindValue(':har', $testresultModel->getHar());
 
         $stmt->execute();
     }
 
     public function getAll() {
         $results = [];
-        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename FROM testresults';
+        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har FROM testresults';
         foreach ($this->dbConnection->query($sql) as $row) {
             $results[] = $this->rowToTestresultModel($row);
         }
@@ -39,7 +40,7 @@ class TestresultRepository
 
     public function getAllSince(\DateTimeInterface $datetime) {
         $results = [];
-        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename FROM testresults WHERE datetimeRun > "'.$datetime->format('Y-m-d H:i:s').'"';
+        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har FROM testresults WHERE datetimeRun > "'.$datetime->format('Y-m-d H:i:s').'"';
         foreach ($this->dbConnection->query($sql) as $row) {
             $results[] = $this->rowToTestresultModel($row);
         }
@@ -69,7 +70,8 @@ class TestresultRepository
             new \DateTime($row['datetimeRun']),
             $row['exitCode'],
             explode("\n", $row['output']),
-            $row['failScreenshotFilename']
+            $row['failScreenshotFilename'],
+            $row['har']
         );
     }
 }
