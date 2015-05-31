@@ -7,7 +7,7 @@ export DISPLAY=:$1
 mkdir /var/tmp/selenior-firefox-profile-$XVFB_PID
 
 /usr/bin/curl -s -X POST -d "port=$2" http://localhost:9090/proxy
-/usr/bin/curl -s -X PUT http://localhost:9090/proxy/$2/har
+/usr/bin/curl -s -X PUT -d "captureHeaders=1" http://localhost:9090/proxy/$2/har
 
 /usr/bin/java \
     -jar /opt/selenese-runner-java/selenese-runner.jar \
