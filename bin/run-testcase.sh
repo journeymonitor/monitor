@@ -6,7 +6,7 @@ XVFB_PID=$!
 export DISPLAY=:$1
 mkdir /var/tmp/selenior-firefox-profile-$XVFB_PID
 
-/usr/bin/curl -X POST -d 'port=$2' http://localhost:9090/proxy
+/usr/bin/curl -X POST -d "port=$2" http://localhost:9090/proxy
 
 /usr/bin/java \
     -jar /opt/selenese-runner-java/selenese-runner.jar \
@@ -17,7 +17,7 @@ mkdir /var/tmp/selenior-firefox-profile-$XVFB_PID
     --width 1920 \
     --height 1200 \
     --strict-exit-code \
-    $2
+    $3
 STATUS=$?
 
 echo $STATUS > /var/tmp/selenior-testcase-run-$1-exit-status
