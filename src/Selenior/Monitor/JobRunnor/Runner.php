@@ -69,7 +69,7 @@ class Runner
 
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-har');
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
-        unlink('/var/tmp/selenior-testcase-run-proxyport-' . $jobId . '.lock');
+        unlink('/var/tmp/selenior-testcase-run-proxyport-' . $proxyPort . '.lock');
         unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-exit-status');
 
         if ($exitCode === 1 && $retry < 5) { // Internal selenium-runner error, retry

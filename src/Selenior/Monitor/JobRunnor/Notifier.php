@@ -81,7 +81,7 @@ EOT;
                 }
             }
 
-            if (stristr($outputLines, 'UnreachableBrowserException')) {
+            if (stristr($output, 'UnreachableBrowserException')) {
                 print('Not sending notification mail because we had a UnreachableBrowserException.');
                 return;
             }
