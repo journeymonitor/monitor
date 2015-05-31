@@ -17,6 +17,7 @@ mkdir /var/tmp/selenior-firefox-profile-$XVFB_PID
     --cli-args "--profile /var/tmp/selenior-firefox-profile-$XVFB_PID" \
     --width 1920 \
     --height 1200 \
+    --screenshot-on-fail /var/tmp/selenior-screenshots \
     --strict-exit-code \
     $3
 STATUS=$?
