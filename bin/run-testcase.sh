@@ -11,7 +11,7 @@ mkdir /var/tmp/selenior-firefox-profile-$XVFB_PID
 /usr/bin/java \
     -jar /opt/selenese-runner-java/selenese-runner.jar \
     --driver firefox \
-    --proxy localhost:$2
+    --proxy localhost:$2 \
     --cli-args "--new-instance" \
     --cli-args "--profile /var/tmp/selenior-firefox-profile-$XVFB_PID" \
     --width 1920 \
