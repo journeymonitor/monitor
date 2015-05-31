@@ -50,17 +50,21 @@ class Runner
         sleep(mt_rand(0, 10)); // Firefoxes should not be started in parallel it seems
         $datetimeRun = new \DateTime('now');
 
+        $commandline = '/bin/bash ' .
+            __DIR__ . DIRECTORY_SEPARATOR . '../../../../bin/run-testcase.sh ' .
+            $jobId .
+            ' ' .
+            $proxyPort .
+            ' ' .
+            $this->directory . DIRECTORY_SEPARATOR . 'selenior-testcase-' . $this->testcaseModel->getId() . '.html ' .
+            '2>&1 ' .
+            '| tee -a /var/tmp/selenior-run-testcase-' . $this->testcaseModel->getId() . '.log ; ' .
+            'exit `cat /var/tmp/selenior-testcase-run-' . $jobId . '-exit-status`';
+
+        echo $commandline . "\n";
+
         exec(
-            '/bin/bash ' .
-                __DIR__ . DIRECTORY_SEPARATOR . '../../../../bin/run-testcase.sh ' .
-                $jobId .
-                ' ' .
-                $proxyPort .
-                ' ' .
-                $this->directory . DIRECTORY_SEPARATOR . 'selenior-testcase-' . $this->testcaseModel->getId() . '.html ' .
-                '2>&1 ' .
-                '| tee -a /var/tmp/selenior-run-testcase-' . $this->testcaseModel->getId() . '.log ; ' .
-                'exit `cat /var/tmp/selenior-testcase-run-' . $jobId . '-exit-status`',
+            $commandline,
             $output,
             $exitCode
         );
