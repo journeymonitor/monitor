@@ -17,7 +17,7 @@ $dbConnection = new PDO('sqlite:/var/tmp/selenior-monitor.sqlite-' . $environmen
 $testcaseRepository = new TestcaseRepository($dbConnection);
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 
-$testresultModels = $testresultRepository->getAllSince((new \DateTime())->modify('-1 day'));
+$testresultModels = $testresultRepository->getAllSince((new \DateTime())->modify('-2 hours'));
 
 $testresultsArray = [];
 foreach ($testresultModels as $testresultModel) {
