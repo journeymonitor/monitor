@@ -1,11 +1,11 @@
 <?php
 
-namespace Selenior\Monitor\JobCreator;
+namespace JourneyMonitor\Monitor\JobCreator;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
-use Selenior\Monitor\Base\TestcaseModel;
-use Selenior\Monitor\Base\TestcaseRepository;
+use JourneyMonitor\Monitor\Base\TestcaseModel;
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
 
 class CreatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,9 +35,9 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 "\n" .
                 '# t1' .
                 "\n" .
-                '*/5 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php a >> /var/tmp/selenior-run-testcase-a-cronjob.log 2>&1' .
+                '*/5 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php a >> /var/tmp/journeymonitor-run-testcase-a-cronjob.log 2>&1' .
                 "\n",
-            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-a')
+            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-a')
         );
 
         $this->assertSame(
@@ -45,9 +45,9 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 "\n" .
                 '# t2' .
                 "\n" .
-                '*/15 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php b >> /var/tmp/selenior-run-testcase-b-cronjob.log 2>&1' .
+                '*/15 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php b >> /var/tmp/journeymonitor-run-testcase-b-cronjob.log 2>&1' .
                 "\n",
-            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-b')
+            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-b')
         );
 
         $this->assertSame(
@@ -55,9 +55,9 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 "\n" .
                 '# t3' .
                 "\n" .
-                '*/7 * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=test /usr/bin/php /opt/selenior/monitor/bin/run.php c >> /var/tmp/selenior-run-testcase-c-cronjob.log 2>&1' .
+                '*/7 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php c >> /var/tmp/journeymonitor-run-testcase-c-cronjob.log 2>&1' .
                 "\n",
-            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-run-testcase-c')
+            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-c')
         );
     }
 }

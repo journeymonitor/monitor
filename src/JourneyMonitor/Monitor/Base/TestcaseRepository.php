@@ -1,6 +1,6 @@
 <?php
 
-namespace Selenior\Monitor\Base;
+namespace JourneyMonitor\Monitor\Base;
 
 class TestcaseRepository
 {

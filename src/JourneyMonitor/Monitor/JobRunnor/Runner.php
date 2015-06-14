@@ -1,8 +1,8 @@
 <?php
 
-namespace Selenior\Monitor\JobRunnor;
+namespace JourneyMonitor\Monitor\JobRunnor;
 
-use Selenior\Monitor\Base\TestresultModel;
+use JourneyMonitor\Monitor\Base\TestresultModel;
 
 class Runner
 {
@@ -20,7 +20,7 @@ class Runner
     public function prepare()
     {
         file_put_contents(
-            $this->directory . DIRECTORY_SEPARATOR . 'selenior-testcase-' . $this->testcaseModel->getId() . '.html',
+            $this->directory . DIRECTORY_SEPARATOR . 'journeymonitor-testcase-' . $this->testcaseModel->getId() . '.html',
             $this->testcaseModel->getScript()
         );
     }
@@ -30,18 +30,18 @@ class Runner
         $found = false;
         while (!$found) {
             $jobId = mt_rand(1, 999999999);
-            if (!file_exists('/var/tmp/selenior-testcase-run-' . $jobId . '.lock')) {
+            if (!file_exists('/var/tmp/journeymonitor-testcase-run-' . $jobId . '.lock')) {
                 $found = true;
-                touch('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
+                touch('/var/tmp/journeymonitor-testcase-run-' . $jobId . '.lock');
             }
         }
 
         $found = false;
         while (!$found) {
             $proxyPort = mt_rand(9091, 60000);
-            if (!file_exists('/var/tmp/selenior-testcase-run-proxyport-' . $proxyPort . '.lock')) {
+            if (!file_exists('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock')) {
                 $found = true;
-                touch('/var/tmp/selenior-testcase-run-proxyport-' . $proxyPort . '.lock');
+                touch('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock');
             }
         }
 
@@ -56,10 +56,10 @@ class Runner
             ' ' .
             $proxyPort .
             ' ' .
-            $this->directory . DIRECTORY_SEPARATOR . 'selenior-testcase-' . $this->testcaseModel->getId() . '.html ' .
+            $this->directory . DIRECTORY_SEPARATOR . 'journeymonitor-testcase-' . $this->testcaseModel->getId() . '.html ' .
             '2>&1 ' .
-            '| tee -a /var/tmp/selenior-run-testcase-' . $this->testcaseModel->getId() . '.log ; ' .
-            'exit `cat /var/tmp/selenior-testcase-run-' . $jobId . '-exit-status`';
+            '| tee -a /var/tmp/journeymonitor-run-testcase-' . $this->testcaseModel->getId() . '.log ; ' .
+            'exit `cat /var/tmp/journeymonitor-testcase-run-' . $jobId . '-exit-status`';
 
         echo $commandline . "\n";
 
@@ -69,12 +69,12 @@ class Runner
             $exitCode
         );
 
-        $har = file_get_contents('/var/tmp/selenior-testcase-run-' . $jobId . '-har');
+        $har = file_get_contents('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-har');
 
-        unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-har');
-        unlink('/var/tmp/selenior-testcase-run-' . $jobId . '.lock');
-        unlink('/var/tmp/selenior-testcase-run-proxyport-' . $proxyPort . '.lock');
-        unlink('/var/tmp/selenior-testcase-run-' . $jobId . '-exit-status');
+        unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-har');
+        unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '.lock');
+        unlink('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock');
+        unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-exit-status');
 
         if ($exitCode === 1 && $retry < 5) { // Internal selenium-runner error, retry
             print_r($output);
@@ -83,14 +83,14 @@ class Runner
         } else {
             $failScreenshotFilename = null;
             foreach ($output as $line) {
-                //[2015-05-22 20:48:21.939] [INFO] - captured screenshot: /var/tmp/selenior-screenshots/test_20150522_204820088_3_fail.png
+                //[2015-05-22 20:48:21.939] [INFO] - captured screenshot: /var/tmp/journeymonitor-screenshots/test_20150522_204820088_3_fail.png
                 if (strstr($line, '[INFO] - captured screenshot: ')) {
                     $failScreenshotFilename = substr($line, 86);
                     $failScreenshotFilename = substr($failScreenshotFilename, 0, -4);
                     exec(
-                        '/usr/bin/convert /var/tmp/selenior-screenshots/' .
+                        '/usr/bin/convert /var/tmp/journeymonitor-screenshots/' .
                         $failScreenshotFilename .
-                        '.png -resize 256 /var/tmp/selenior-screenshots/' .
+                        '.png -resize 256 /var/tmp/journeymonitor-screenshots/' .
                         $failScreenshotFilename .
                         '_256.png'
                     );

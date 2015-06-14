@@ -1,8 +1,8 @@
 <?php
 
-namespace Selenior\Monitor\JobRunnor;
+namespace JourneyMonitor\Monitor\JobRunnor;
 
-use Selenior\Monitor\Base\TestresultModel;
+use JourneyMonitor\Monitor\Base\TestresultModel;
 
 class Notifier
 {

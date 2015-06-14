@@ -1,5 +1,5 @@
 {
-    "name": "selenior/monitor",
+    "name": "journeymonitor/monitor",
     "description": "Code for MONITOR domain",
     "authors": [
         {
@@ -8,7 +8,7 @@
         }
     ],
     "autoload": {
-        "psr-0": {"Selenior": "src/"}
+        "psr-0": {"JourneyMonitor": "src/"}
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

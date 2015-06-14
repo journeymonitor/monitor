@@ -2,7 +2,7 @@
 
 use \Phpmig\Adapter;
 use \Pimple;
-use Selenior\Monitor\Base\EnvironmentInfo;
+use JourneyMonitor\Monitor\Base\EnvironmentInfo;
 
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
@@ -10,7 +10,7 @@ $environmentName = $environmentInfo->getName();
 $container = new Pimple();
 
 $container['db'] = $container->share(function() use ($environmentName) {
-    $dbh = new \PDO('sqlite:/var/tmp/selenior-monitor.sqlite-' . $environmentName);
+    $dbh = new \PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3');
     $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     return $dbh;
 });

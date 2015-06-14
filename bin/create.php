@@ -5,14 +5,14 @@ date_default_timezone_set('Europe/Berlin');
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Selenior\Monitor\Base\TestcaseRepository;
-use Selenior\Monitor\Base\EnvironmentInfo;
-use Selenior\Monitor\JobCreator\Creator;
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
+use JourneyMonitor\Monitor\Base\EnvironmentInfo;
+use JourneyMonitor\Monitor\JobCreator\Creator;
 
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
-$testcaseRepository = new TestcaseRepository(new \PDO('sqlite:/var/tmp/selenior-monitor.sqlite-' . $environmentName));
+$testcaseRepository = new TestcaseRepository(new \PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3'));
 
 $creator = new Creator($testcaseRepository, '/etc/cron.d', $environmentName);
 $creator->run();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Selenior\Monitor\JobCreator;
+namespace JourneyMonitor\Monitor\JobCreator;
 
 class Creator
 {
@@ -20,18 +20,18 @@ class Creator
         $testcaseModels = $this->testcaseRepository->getAll();
         foreach ($testcaseModels as $testcaseModel) {
             file_put_contents(
-                $this->directory . DIRECTORY_SEPARATOR . 'selenior-run-testcase-'.$testcaseModel->getId(),
+                $this->directory . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-'.$testcaseModel->getId(),
                 'MAILTO=""' .
                     "\n" .
                     '# ' .
                     $testcaseModel->getTitle() .
                     "\n" .
                     $testcaseModel->getCadence() .
-                    ' * * * * root cd /tmp && sudo -u selenior -H PHP_ENV=' .
+                    ' * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=' .
                     $this->environmentName .
-                    ' /usr/bin/php /opt/selenior/monitor/bin/run.php ' .
+                    ' /usr/bin/php /opt/journeymonitor/monitor/bin/run.php ' .
                     $testcaseModel->getId() .
-                    ' >> /var/tmp/selenior-run-testcase-' . $testcaseModel->getId() . '-cronjob.log 2>&1' .
+                    ' >> /var/tmp/journeymonitor-run-testcase-' . $testcaseModel->getId() . '-cronjob.log 2>&1' .
                     "\n"
             );
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Selenior\Monitor\TestcaseImportor;
+namespace JourneyMonitor\Monitor\TestcaseImportor;
 
 class ScriptTransformer
 {

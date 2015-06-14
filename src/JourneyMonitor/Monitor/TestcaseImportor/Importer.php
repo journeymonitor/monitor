@@ -1,9 +1,9 @@
 <?php
 
-namespace Selenior\Monitor\TestcaseImportor;
+namespace JourneyMonitor\Monitor\TestcaseImportor;
 
-use Selenior\Monitor\Base\TestcaseModel;
-use Selenior\Monitor\Base\TestcaseRepository;
+use JourneyMonitor\Monitor\Base\TestcaseModel;
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
 
 class Importer
 {

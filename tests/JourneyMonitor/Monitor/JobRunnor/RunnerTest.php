@@ -1,11 +1,11 @@
 <?php
 
-namespace Selenior\Monitor\JobRunnor;
+namespace JourneyMonitor\Monitor\JobRunnor;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
-use Selenior\Monitor\Base\TestcaseModel;
-use Selenior\Monitor\Base\TestcaseRepository;
+use JourneyMonitor\Monitor\Base\TestcaseModel;
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
 
 class RunnerTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             'foo-b',
-            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'selenior-testcase-b.html')
+            file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'journeymonitor-testcase-b.html')
         );
     }
 }

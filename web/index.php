@@ -5,14 +5,14 @@ date_default_timezone_set('Europe/Berlin');
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Selenior\Monitor\Base\TestresultRepository;
-use Selenior\Monitor\Base\TestcaseRepository;
-use Selenior\Monitor\Base\EnvironmentInfo;
+use JourneyMonitor\Monitor\Base\TestresultRepository;
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
+use JourneyMonitor\Monitor\Base\EnvironmentInfo;
 
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
-$dbConnection = new PDO('sqlite:/var/tmp/selenior-monitor.sqlite-' . $environmentName);
+$dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3');
 
 $testcaseRepository = new TestcaseRepository($dbConnection);
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
