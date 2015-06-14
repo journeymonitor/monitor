@@ -1,0 +1,17 @@
+env:
+  global:
+  - secure: "TZCLi3r9jaTj4HjoAp2XP4CL75AMFc88SDD9kLmPLxudY5TVhhfb74kNdXrws63Ih7VYv91tTdGX4yFASMkjAFYGbsipdkrUuzWGVTEhQpASRXfRuRXeZMcHvYh9+BiFiz4WxOmvVjiFdmJjC1kmMGxyGnzmnPn7M4Q7dDU/u/2k9EHh7kUwVw3hAVlcCsn6ixlFGo2n7CZ6Rfa7dV8A85NqGZrM9yYgWWp9XYSZwLy3k3Qo9BlnbMTrpiv8CIQmRqFdMUXpolRVGEyukNXThFG4oA2uBNwaUQsMaytECx41oRyIPQX7gBj1vtyB9fgTCIhBFby7E3AUeYdxlOYjqScpQeBi3fQ7pxgOLv7Kd0yumpjWal0KevrOvQwpunpqHmDjBJheTGgOP4xKjHviyQDvoV/pdoHIoIQMp7nY+9xBKi9F3D/E84NWawXvIgdXisHqq5aAcUnOyg9EqZbT6d3gEVMpYsaYLRvhYWYlKw5vYlcDcUseE5e1iup/+KXS3iW+h71QSNDKSQ87zLCma00cJiN5nsPs+DOZMlCrmGTQ4Gy1TOT4ORc3a0vXeVMq5s09m+mZVTGc03POAkb6kT+EPV7cOMULathb47ziX94A4yiYeIMHGp6uCUPTvKzfsZdO4BzS8d6MFzJG2tHgge91TfW7aVXQnAkG2wiyVE4="
+language: php
+php:
+- 5.5
+sudo: required
+branches:
+  only:
+  - master
+  - develop
+before_script:
+- make travisci-before-script
+script:
+- make travisci-script
+after_success:
+- make travisci-after-success

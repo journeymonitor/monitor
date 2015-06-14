@@ -4,6 +4,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:$PA
 
 cd $2
 
-/usr/bin/php /usr/bin/composer update --no-progress --quiet --no-ansi || exit 1
+/usr/bin/php /usr/bin/composer install --no-interaction --no-progress --quiet --no-ansi || exit 1
 
 /usr/bin/php ./vendor/phpunit/phpunit/phpunit ./tests/ || exit 1
