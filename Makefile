@@ -1,5 +1,5 @@
 php-dependencies:
-	/usr/bin/composer install --no-interaction
+	composer install --no-interaction
 
 dependencies: php-dependencies
 
