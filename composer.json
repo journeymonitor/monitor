@@ -1,12 +1,6 @@
 {
     "name": "journeymonitor/monitor",
-    "description": "Code for MONITOR domain",
-    "authors": [
-        {
-            "name": "Manuel Kiessling",
-            "email": "manuel@kiessling.net"
-        }
-    ],
+    "license": "See LICENSE.md",
     "autoload": {
         "psr-0": {"JourneyMonitor": "src/"}
     },

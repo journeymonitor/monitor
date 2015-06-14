@@ -3,6 +3,9 @@ php-dependencies:
 
 dependencies: php-dependencies
 
+migrations:
+	PHP_ENV=dev /usr/bin/php ./vendor/davedevelopment/phpmig/bin/phpmig migrate
+
 test-migrations:
 	PHP_ENV=test /usr/bin/php ./vendor/davedevelopment/phpmig/bin/phpmig migrate
 
