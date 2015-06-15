@@ -81,23 +81,22 @@ class Runner
             print('Internal selenium-runner error, trying again...' . "\n");
             return $this->run($retry + 1);
         } else {
-            $failScreenshotFilename = null;
+            $la = new LogAnalyzer();
+            $failScreenshotFilenameWithoutExtension = null;
             foreach ($output as $line) {
-                //[2015-05-22 20:48:21.939] [INFO] - captured screenshot: /var/tmp/journeymonitor-screenshots/test_20150522_204820088_3_fail.png
-                if (strstr($line, '[INFO] - captured screenshot: ')) {
-                    $failScreenshotFilename = substr($line, 86);
-                    $failScreenshotFilename = substr($failScreenshotFilename, 0, -4);
+                if ($la->lineContainsScreenshot($line)) {
+                    $failScreenshotFilenameWithoutExtension = substr($la->getScreenshotFilenameFromLine($line), 0, -4);
                     exec(
                         '/usr/bin/convert /var/tmp/journeymonitor-screenshots/' .
-                        $failScreenshotFilename .
+                        $failScreenshotFilenameWithoutExtension .
                         '.png -resize 256 /var/tmp/journeymonitor-screenshots/' .
-                        $failScreenshotFilename .
+                        $failScreenshotFilenameWithoutExtension .
                         '_256.png'
                     );
                 }
             }
 
-            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilename, (string)$har);
+            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilenameWithoutExtension, (string)$har);
         }
     }
 }
