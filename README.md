@@ -26,4 +26,4 @@ Afterwards, follow these steps:
 - `make migrations`
 
 Thanks to https://github.com/journeymonitor/infra/blob/master/puppet/modules/cronjobs/templates/etc/cron.d/journeymonitor-monitor.erb#L8,
-the testcases you add at http://192.168.99.99/ will be executed regularly.
+the testcases you add at http://192.168.59.99/ will be executed regularly.
