@@ -1,6 +1,6 @@
 <?php
 
-namespace JourneyMonitor\Monitor\JobRunnor;
+namespace JourneyMonitor\Monitor\JobRunner;
 
 use JourneyMonitor\Monitor\Base\TestresultModel;
 

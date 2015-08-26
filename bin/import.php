@@ -8,8 +8,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 use GuzzleHttp\Client;
 use JourneyMonitor\Monitor\Base\TestcaseRepository;
 use JourneyMonitor\Monitor\Base\EnvironmentInfo;
-use JourneyMonitor\Monitor\TestcaseImportor\ScriptTransformer;
-use JourneyMonitor\Monitor\TestcaseImportor\Importer;
+use JourneyMonitor\Monitor\TestcaseImporter\ScriptTransformer;
+use JourneyMonitor\Monitor\TestcaseImporter\Importer;
 
 if (!array_key_exists(1, $argv)) {
     exit(1);

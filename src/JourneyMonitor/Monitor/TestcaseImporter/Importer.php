@@ -1,6 +1,6 @@
 <?php
 
-namespace JourneyMonitor\Monitor\TestcaseImportor;
+namespace JourneyMonitor\Monitor\TestcaseImporter;
 
 use JourneyMonitor\Monitor\Base\TestcaseModel;
 use JourneyMonitor\Monitor\Base\TestcaseRepository;

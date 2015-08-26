@@ -8,8 +8,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 use JourneyMonitor\Monitor\Base\TestcaseRepository;
 use JourneyMonitor\Monitor\Base\TestresultRepository;
 use JourneyMonitor\Monitor\Base\EnvironmentInfo;
-use JourneyMonitor\Monitor\JobRunnor\Runner;
-use JourneyMonitor\Monitor\JobRunnor\Notifier;
+use JourneyMonitor\Monitor\JobRunner\Runner;
+use JourneyMonitor\Monitor\JobRunner\Notifier;
 
 if (!array_key_exists(1, $argv)) {
     exit(1);

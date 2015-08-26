@@ -1,6 +1,6 @@
 <?php
 
-namespace JourneyMonitor\Monitor\JobRunnor;
+namespace JourneyMonitor\Monitor\JobRunner;
 
 class LogAnalyzerTest extends \PHPUnit_Framework_TestCase
 {

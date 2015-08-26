@@ -1,6 +1,6 @@
 <?php
 
-namespace JourneyMonitor\Monitor\JobRunnor;
+namespace JourneyMonitor\Monitor\JobRunner;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
