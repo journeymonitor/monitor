@@ -3,11 +3,36 @@
 namespace JourneyMonitor\Monitor\JobRunner;
 
 use JourneyMonitor\Monitor\Base\TestresultModel;
+use JourneyMonitor\Monitor\Base\TestresultRepository;
 
 class Notifier
 {
+    private $testresultRepository;
+    private $sendMail;
+
+    public function __construct(TestresultRepository $testresultRepository, callable $sendMail)
+    {
+        $this->testresultRepository = $testresultRepository;
+        $this->sendMail = $sendMail;
+    }
+
     public function handle(TestresultModel $testresultModel)
     {
+        // Stop notifying if the last 3 results were negative,
+        // in order to avoid spamming the user
+        $lastResults = $this->testresultRepository->getNLastTestresultsForTestcase(3, $testresultModel->getTestcase());
+        $allFailed = true;
+        $i = 0;
+        foreach ($lastResults as $testresultModelToCheck) {
+            if ($testresultModelToCheck->getExitCode() === 0) {
+                $allFailed = false;
+            }
+            $i++;
+        }
+        if ($allFailed && $i > 2) {
+            return;
+        }
+
         $sendmail = false;
         $subject = '';
         $body = '';
@@ -93,7 +118,8 @@ EOT;
             $body = str_replace('{testresultId}', $testresultModel->getId(), $body);
             $body = str_replace('{testcaseId}', $testresultModel->getTestcase()->getId(), $body);
 
-            mail(
+            $sendMail = $this->sendMail;
+            $sendMail(
                 $testresultModel->getTestcase()->getNotifyEmail(),
                 $subject,
                 $body

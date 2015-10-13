@@ -47,6 +47,16 @@ class TestresultRepository
         return $results;
     }
 
+    public function getNLastTestresultsForTestcase($n, TestcaseModel $testcase)
+    {
+        $results = [];
+        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har FROM testresults WHERE testcaseId = "' . $testcase->getId() . '" ORDER BY datetimeRun DESC LIMIT ' . (int)$n;
+        foreach ($this->dbConnection->query($sql) as $row) {
+            $results[] = $this->rowToTestresultModel($row);
+        }
+        return $results;
+    }
+
     public function removeAll()
     {
         $sql = 'DELETE FROM testresults';

@@ -30,5 +30,9 @@ $testresultModel = $runner->run();
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 $testresultRepository->add($testresultModel);
 
-$notifier = new Notifier();
+$sendMail = function($receiver, $subject, $body) {
+    mail($receiver, $subject, $body);
+};
+
+$notifier = new Notifier($testresultRepository, $sendMail);
 $notifier->handle($testresultModel);

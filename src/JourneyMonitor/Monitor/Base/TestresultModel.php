@@ -34,7 +34,7 @@ class TestresultModel
         ));
     }
 
-    public function __construct($id, TestcaseModel $testcase, $datetimeRun, $exitCode, $output, $failScreenshotFilename, $har)
+    public function __construct($id, TestcaseModel $testcase, $datetimeRun, $exitCode, Array $output, $failScreenshotFilename, $har)
     {
         $this->id = $id;
         $this->testcase = $testcase;
