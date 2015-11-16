@@ -22,7 +22,7 @@ $dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environment
 $testcaseRepository = new TestcaseRepository($dbConnection);
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 
-$testresultModelIterator = $testresultRepository->getIteratorForAllSince((new \DateTime())->modify('-30 days'));
+$testresultModelIterator = $testresultRepository->getIteratorForAllSince((new \DateTime())->modify('-2 hours'));
 
 echo "[\n";
 
