@@ -29,12 +29,16 @@ class MockStatement extends \PDOStatement
     }
 }
 
+class MockPdo extends \PDO
+{
+    public function __construct() {}
+}
+
 class TestResultRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetIteratorForAllSince()
     {
-        $mockPdo = $this->getMockBuilder('\PDO')
-            ->disableOriginalConstructor()
+        $mockPdo = $this->getMockBuilder('JourneyMonitor\Monitor\Base\MockPdo')
             ->getMock();
         $mockPdo->method('prepare')->willReturn(new MockStatement());
 
