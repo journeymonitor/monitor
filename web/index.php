@@ -1,5 +1,10 @@
 <?php
 
+set_time_limit(3600);
+
+header('Content-Type: application/json');
+flush();
+
 error_reporting(E_ALL);
 date_default_timezone_set('Europe/Berlin');
 
@@ -17,21 +22,29 @@ $dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environment
 $testcaseRepository = new TestcaseRepository($dbConnection);
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 
-$testresultModels = $testresultRepository->getAllSince((new \DateTime())->modify('-2 hours'));
+$testresultModelIterator = $testresultRepository->getIteratorForAllSince((new \DateTime())->modify('-30 days'));
 
-$testresultsArray = [];
-foreach ($testresultModels as $testresultModel) {
-    $testresultsArray[] = [
-        'id'                     => $testresultModel->getId(),
-        'testcaseId'             => $testresultModel->getTestcase()->getId(),
-        'datetimeRun'            => $testresultModel->getDatetimeRun()->format('Y-m-d H:i:s'),
-        'exitCode'               => $testresultModel->getExitCode(),
-        'output'                 => implode("\n", $testresultModel->getOutput()),
-        'failScreenshotFilename' => $testresultModel->getFailScreenshotFilename(),
-        'har'                    => $testresultModel->getHar(),
-    ];
+echo "[\n";
+
+$firstLoop = true;
+foreach ($testresultModelIterator as $testresultModel) {
+    if (!$firstLoop) {
+        echo ",\n";
+    } else {
+        $firstLoop = false;
+    }
+    echo(
+        json_encode([
+            'id'                     => $testresultModel->getId(),
+            'testcaseId'             => $testresultModel->getTestcase()->getId(),
+            'datetimeRun'            => $testresultModel->getDatetimeRun()->format('Y-m-d H:i:s'),
+            'exitCode'               => $testresultModel->getExitCode(),
+            'output'                 => implode("\n", $testresultModel->getOutput()),
+            'failScreenshotFilename' => $testresultModel->getFailScreenshotFilename(),
+            'har'                    => $testresultModel->getHar(),
+        ])
+    );
+    flush();
 }
 
-header('Content-Type: application/json');
-
-echo json_encode($testresultsArray);
+echo "\n]";

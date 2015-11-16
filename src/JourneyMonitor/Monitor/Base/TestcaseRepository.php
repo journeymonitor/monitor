@@ -17,8 +17,11 @@ class TestcaseRepository
         $stmt = $this->dbConnection->prepare($sql);
         $stmt->bindValue(':id', $id, \PDO::PARAM_STR);
         $stmt->execute();
-        $row = $stmt->fetchAll(\PDO::FETCH_ASSOC)[0];
-        return new TestcaseModel($row['id'], $row['title'], $row['notifyEmail'], $row['cadence'], $row['script']);
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($rows as $row) {
+            return new TestcaseModel($row['id'], $row['title'], $row['notifyEmail'], $row['cadence'], $row['script']);
+        }
+        return null;
     }
     
     public function add(TestcaseModel $testcaseModel)

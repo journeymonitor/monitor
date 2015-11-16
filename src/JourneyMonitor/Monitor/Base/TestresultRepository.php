@@ -33,16 +33,23 @@ class TestresultRepository
         $results = [];
         $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har FROM testresults';
         foreach ($this->dbConnection->query($sql) as $row) {
-            $results[] = $this->rowToTestresultModel($row);
+            $results[] = $this->arrayToTestresultModel($row);
         }
         return $results;
+    }
+
+    public function getIteratorForAllSince(\DateTimeInterface $datetime) {
+        $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har FROM testresults WHERE datetimeRun > ?';
+        $stmt = $this->dbConnection->prepare($sql);
+        $stmt->execute([$datetime->format('Y-m-d H:i:s')]);
+        return new TestresultModelIterator($this, $stmt);
     }
 
     public function getAllSince(\DateTimeInterface $datetime) {
         $results = [];
         $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har FROM testresults WHERE datetimeRun > "'.$datetime->format('Y-m-d H:i:s').'"';
         foreach ($this->dbConnection->query($sql) as $row) {
-            $results[] = $this->rowToTestresultModel($row);
+            $results[] = $this->arrayToTestresultModel($row);
         }
         return $results;
     }
@@ -52,7 +59,7 @@ class TestresultRepository
         $results = [];
         $sql = 'SELECT id, testcaseId, datetimeRun, exitCode, output, failScreenshotFilename, har FROM testresults WHERE testcaseId = "' . $testcase->getId() . '" ORDER BY datetimeRun DESC LIMIT ' . (int)$n;
         foreach ($this->dbConnection->query($sql) as $row) {
-            $results[] = $this->rowToTestresultModel($row);
+            $results[] = $this->arrayToTestresultModel($row);
         }
         return $results;
     }
@@ -63,17 +70,7 @@ class TestresultRepository
         $this->dbConnection->exec($sql);
     }
 
-    private function remove(TestresultModel $testresultModel)
-    {
-        $sql = 'DELETE FROM testresults WHERE id = :id';
-        $stmt = $this->dbConnection->prepare($sql);
-
-        $stmt->bindValue(':id', $testresultModel->getId());
-
-        $stmt->execute();
-    }
-
-    private function rowToTestresultModel($row) {
+    public function arrayToTestresultModel($row) {
         return new TestresultModel(
             $row['id'],
             $this->testcaseRepository->getById($row['testcaseId']),
@@ -83,5 +80,15 @@ class TestresultRepository
             $row['failScreenshotFilename'],
             $row['har']
         );
+    }
+
+    private function remove(TestresultModel $testresultModel)
+    {
+        $sql = 'DELETE FROM testresults WHERE id = :id';
+        $stmt = $this->dbConnection->prepare($sql);
+
+        $stmt->bindValue(':id', $testresultModel->getId());
+
+        $stmt->execute();
     }
 }
