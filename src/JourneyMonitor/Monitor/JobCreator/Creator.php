@@ -31,7 +31,7 @@ class Creator
                     $this->environmentName .
                     ' /usr/bin/php /opt/journeymonitor/monitor/bin/run.php ' .
                     $testcaseModel->getId() .
-                    ' >> /var/tmp/journeymonitor-run-testcase-' . $testcaseModel->getId() . '-cronjob.log 2>&1' .
+                    ' | while IFS= read -r line;do echo "$(date) $line";done >> /var/tmp/journeymonitor-run-testcase-' . $testcaseModel->getId() . '-cronjob.log 2>&1' .
                     "\n"
             );
         }

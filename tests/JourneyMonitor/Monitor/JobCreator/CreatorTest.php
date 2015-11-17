@@ -35,7 +35,7 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 "\n" .
                 '# t1' .
                 "\n" .
-                '*/5 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php a >> /var/tmp/journeymonitor-run-testcase-a-cronjob.log 2>&1' .
+                '*/5 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php a | while IFS= read -r line;do echo "$(date) $line";done >> /var/tmp/journeymonitor-run-testcase-a-cronjob.log 2>&1' .
                 "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-a')
         );
@@ -45,7 +45,7 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 "\n" .
                 '# t2' .
                 "\n" .
-                '*/15 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php b >> /var/tmp/journeymonitor-run-testcase-b-cronjob.log 2>&1' .
+                '*/15 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php b | while IFS= read -r line;do echo "$(date) $line";done >> /var/tmp/journeymonitor-run-testcase-b-cronjob.log 2>&1' .
                 "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-b')
         );
@@ -55,7 +55,7 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
                 "\n" .
                 '# t3' .
                 "\n" .
-                '*/7 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php c >> /var/tmp/journeymonitor-run-testcase-c-cronjob.log 2>&1' .
+                '*/7 * * * * root cd /tmp && sudo -u journeymonitor -H PHP_ENV=test /usr/bin/php /opt/journeymonitor/monitor/bin/run.php c | while IFS= read -r line;do echo "$(date) $line";done >> /var/tmp/journeymonitor-run-testcase-c-cronjob.log 2>&1' .
                 "\n",
             file_get_contents(vfsStream::url('test') . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-c')
         );
