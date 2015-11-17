@@ -23,6 +23,17 @@ class MockStatement extends \PDOStatement
                 'failScreenshotFilename' => null,
                 'har' => '{}'
             ];
+        } elseif ($calls == 1) {
+            $calls++;
+            return [
+                'id' => 'a2',
+                'testcaseId' => '1',
+                'datetimeRun' => '2015-01-02 12:34:57',
+                'exitCode' => '4',
+                'output' => 'Foobar',
+                'failScreenshotFilename' => null,
+                'har' => '{}'
+            ];
         } else {
             return false;
         }
@@ -47,16 +58,21 @@ class TestResultRepositoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $mockTestcaseRepository
             ->method('getById')
+            ->with('1')
             ->willReturn(new TestcaseModel('1', 'One', 'foo@example.org', '*/5', 'bar'));
 
         $repo = new TestresultRepository($mockPdo, $mockTestcaseRepository);
         $iterator = $repo->getIteratorForAllSince(new \DateTime("now"));
 
-        $res = null;
+        $res = [];
         foreach ($iterator as $testresult) {
-            $res = $testresult;
+            $res[] = $testresult;
         }
 
-        $this->assertSame('a1', $res->getId());
+        $this->assertSame(2, sizeof($res));
+        $this->assertSame('a1', $res[0]->getId());
+        $this->assertSame('One', $res[0]->getTestcase()->getTitle());
+        $this->assertSame('a2', $res[1]->getId());
+        $this->assertSame('One', $res[1]->getTestcase()->getTitle());
     }
 }
