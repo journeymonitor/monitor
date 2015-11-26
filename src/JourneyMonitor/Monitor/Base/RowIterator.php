@@ -15,12 +15,8 @@ class RowIterator implements \Iterator
     public function __construct(\PDOStatement $PDOStatement)
     {
         $this->pdoStatement = $PDOStatement;
-        $this->result = $this->pdoStatement->fetch();
-        if (false === $this->result) {
-            $this->valid = false;
-        } else {
-            $this->valid = true;
-        }
+        $this->key = -1;
+        $this->next();
     }
 
     /**
@@ -36,11 +32,19 @@ class RowIterator implements \Iterator
      */
     public function next()
     {
-        $this->key++;
-        $this->result = $this->pdoStatement->fetch();
-        if (false === $this->result) {
+        $row = $this->pdoStatement->fetch();
+        if (false === $row) {
+            $this->result = false;
             $this->valid = false;
             return null;
+        } else {
+            try {
+                $this->result = $this->createResult($row);
+                $this->key++;
+                $this->valid = true;
+            } catch (\Exception $e) {
+                return $this->next();
+            }
         }
     }
 

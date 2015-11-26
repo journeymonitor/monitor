@@ -20,7 +20,7 @@ class TestresultRepository
 
         $stmt->bindValue(':id', $testresultModel->getId());
         $stmt->bindValue(':testcaseId', $testresultModel->getTestcase()->getId());
-        $stmt->bindValue(':datetimeRun', $testresultModel->getDatetimeRun()->format('Y-m-d H:i:s'));
+        $stmt->bindValue(':datetimeRun', $testresultModel->getDatetimeRun()->format('Y-m-d H:i:s')); # @TODO: We need the timezone here, too
         $stmt->bindValue(':exitCode', $testresultModel->getExitCode());
         $stmt->bindValue(':output', implode("\n", $testresultModel->getOutput()));
         $stmt->bindValue(':failScreenshotFilename', $testresultModel->getFailScreenshotFilename());
@@ -70,10 +70,14 @@ class TestresultRepository
         $this->dbConnection->exec($sql);
     }
 
-    public function arrayToTestresultModel($row) {
+    public function arrayToTestresultModel(array $row) {
+        $testcaseModel = $this->testcaseRepository->getById($row['testcaseId']);
+        if ($testcaseModel === null) {
+            throw new \Exception();
+        }
         return new TestresultModel(
             $row['id'],
-            $this->testcaseRepository->getById($row['testcaseId']),
+            $testcaseModel,
             new \DateTime($row['datetimeRun']),
             $row['exitCode'],
             explode("\n", $row['output']),

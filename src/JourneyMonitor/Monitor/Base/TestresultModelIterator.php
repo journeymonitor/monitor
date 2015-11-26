@@ -2,6 +2,8 @@
 
 namespace JourneyMonitor\Monitor\Base;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
+
 class TestresultModelIterator extends RowIterator
 {
     protected $testresultRepository;
@@ -12,15 +14,8 @@ class TestresultModelIterator extends RowIterator
         return parent::__construct($PDOStatement);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function current()
+    protected function createResult(array $row)
     {
-        $currentRow = parent::current();
-        if (false === $currentRow) {
-            return false;
-        }
-        return $this->testresultRepository->arrayToTestresultModel($currentRow);
+        return $this->testresultRepository->arrayToTestresultModel($row);
     }
 }
