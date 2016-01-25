@@ -55,10 +55,7 @@ Edit this testcase:
 http://journeymonitor.com/testcases/{testcaseId}
 
 Disable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/{testcaseId}/disable
-
-Re-enable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/{testcaseId}/enable
+http://journeymonitor.com/testcases/#testcase-{testcaseId}
 
 Sincerely,
 --
