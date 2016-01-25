@@ -7,7 +7,7 @@ class RowIterator implements \Iterator
     protected $pdoStatement;
     /** @var int $key The cursor pointer */
     protected $key;
-    /** @var  bool|\stdClass The resultset for a single row */
+    /** @var  bool|\stdClass The resulting object for a single row */
     protected $result;
     /** @var  bool $valid Flag indicating there's a valid resource or not */
     protected $valid;
