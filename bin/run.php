@@ -20,6 +20,8 @@ $testcaseId = $argv[1];
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
+$logger = new Logger();
+
 $dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3');
 
 $testcaseRepository = new TestcaseRepository($dbConnection);
@@ -27,22 +29,22 @@ $testcaseRepository = new TestcaseRepository($dbConnection);
 $runner = new Runner($testcaseRepository, '/var/tmp', $testcaseId);
 $runner->prepare();
 
-print('About to start Selenium run...' . "\n");
+$logger->info('About to start Selenium run...' . "\n");
 $testresultModel = $runner->run();
-print('Finished Selenium run.' . "\n");
+$logger->info('Finished Selenium run, exit code was ' . $testresultModel->getExitCode() . "\n");
 
-print('About to persist testresult ' . $testresultModel->getId() . '...' . "\n");
+$logger->info('About to persist testresult ' . $testresultModel->getId() . '...' . "\n");
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 $testresultRepository->add($testresultModel);
-print('Finished persisting testresult ' . $testresultModel->getId() . '.' . "\n");
+$logger->info('Finished persisting testresult ' . $testresultModel->getId() . '.' . "\n");
 
-print('About to handle notifications...' . "\n");
-$sendMail = function($receiver, $subject, $body) {
-    print('Sending mail to ' . $receiver . '...' . "\n");
+$logger->info('About to handle notifications...' . "\n");
+$sendMail = function($receiver, $subject, $body) use ($logger) {
+    $logger->info('Sending mail to ' . $receiver . '...' . "\n");
     mail($receiver, $subject, $body);
-    print('Finished sending mail to ' . $receiver . '.' . "\n");
+    $logger->info('Finished sending mail to ' . $receiver . '.' . "\n");
 };
 
 $notifier = new Notifier($testresultRepository, $sendMail, new Logger());
 $notifier->handle($testresultModel);
-print('Finished handling notifications.' . "\n");
+$logger->info('Finished handling notifications.' . "\n");
