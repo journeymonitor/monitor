@@ -12,9 +12,9 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     {
         $testcaseModel = new TestcaseModel('abc', 'tc', 'foo@example.org', '0', 'bar');
 
-        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
-        $testresultModel2 = new TestresultModel('122', $testcaseModel, new \DateTime(), 0, ['foo'],  '/x/y.png', 'har');
-        $testresultModel1 = new TestresultModel('121', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
+        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), '4', ['foo'],  '/x/y.png', 'har');
+        $testresultModel2 = new TestresultModel('122', $testcaseModel, new \DateTime(), '0', ['foo'],  '/x/y.png', 'har');
+        $testresultModel1 = new TestresultModel('121', $testcaseModel, new \DateTime(), '4', ['foo'],  '/x/y.png', 'har');
 
         $mockTestresultRepository = $this->getMockBuilder('\JourneyMonitor\Monitor\Base\TestresultRepository')
             ->disableOriginalConstructor()
@@ -41,9 +41,9 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     {
         $testcaseModel = new TestcaseModel('abc', 'tc', 'foo@example.org', '0', 'bar');
 
-        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
-        $testresultModel2 = new TestresultModel('122', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
-        $testresultModel1 = new TestresultModel('121', $testcaseModel, new \DateTime(), 0, ['foo'],  '/x/y.png', 'har');
+        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), '4', ['foo'],  '/x/y.png', 'har');
+        $testresultModel2 = new TestresultModel('122', $testcaseModel, new \DateTime(), '4', ['foo'],  '/x/y.png', 'har');
+        $testresultModel1 = new TestresultModel('121', $testcaseModel, new \DateTime(), '0', ['foo'],  '/x/y.png', 'har');
 
         $mockTestresultRepository = $this->getMockBuilder('\JourneyMonitor\Monitor\Base\TestresultRepository')
             ->disableOriginalConstructor()
@@ -69,9 +69,9 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     {
         $testcaseModel = new TestcaseModel('abc', 'tc', 'foo@example.org', '0', 'bar');
 
-        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), 2, ['foo'],  '/x/y.png', 'har');
-        $testresultModel2 = new TestresultModel('122', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
-        $testresultModel1 = new TestresultModel('121', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
+        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), '2', ['foo'],  '/x/y.png', 'har');
+        $testresultModel2 = new TestresultModel('122', $testcaseModel, new \DateTime(), '4', ['foo'],  '/x/y.png', 'har');
+        $testresultModel1 = new TestresultModel('121', $testcaseModel, new \DateTime(), '4', ['foo'],  '/x/y.png', 'har');
 
         $mockTestresultRepository = $this->getMockBuilder('\JourneyMonitor\Monitor\Base\TestresultRepository')
             ->disableOriginalConstructor()
