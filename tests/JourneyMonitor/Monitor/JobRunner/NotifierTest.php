@@ -4,6 +4,7 @@ namespace JourneyMonitor\Monitor\JobRunner;
 
 use JourneyMonitor\Monitor\Base\TestresultModel;
 use JourneyMonitor\Monitor\Base\TestcaseModel;
+use JourneyMonitor\Monitor\Base\Logger;
 
 class NotifierTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +31,7 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             $didSend = true;
         };
 
-        $notifier = new Notifier($mockTestresultRepository, $sendMail);
+        $notifier = new Notifier($mockTestresultRepository, $sendMail, new Logger());
         $notifier->handle($testresultModel3);
 
         $this->assertTrue($didSend);
@@ -58,7 +59,7 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             $didSend = true;
         };
 
-        $notifier = new Notifier($mockTestresultRepository, $sendMail);
+        $notifier = new Notifier($mockTestresultRepository, $sendMail, new Logger());
         $notifier->handle($testresultModel2);
 
         $this->assertTrue($didSend);
@@ -68,7 +69,7 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
     {
         $testcaseModel = new TestcaseModel('abc', 'tc', 'foo@example.org', '0', 'bar');
 
-        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
+        $testresultModel3 = new TestresultModel('123', $testcaseModel, new \DateTime(), 2, ['foo'],  '/x/y.png', 'har');
         $testresultModel2 = new TestresultModel('122', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
         $testresultModel1 = new TestresultModel('121', $testcaseModel, new \DateTime(), 4, ['foo'],  '/x/y.png', 'har');
 
@@ -87,7 +88,7 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
             $didSend = true;
         };
 
-        $notifier = new Notifier($mockTestresultRepository, $sendMail);
+        $notifier = new Notifier($mockTestresultRepository, $sendMail, new Logger());
         $notifier->handle($testresultModel3);
 
         $this->assertFalse($didSend);

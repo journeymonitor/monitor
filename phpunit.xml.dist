@@ -12,4 +12,8 @@
     stopOnFailure               = "false"
     syntaxCheck                 = "false" >
 
+    <php>
+        <const name="PHPUNIT" value="yes" />
+    </php>
+
 </phpunit>

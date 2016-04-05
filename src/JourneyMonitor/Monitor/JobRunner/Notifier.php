@@ -2,6 +2,7 @@
 
 namespace JourneyMonitor\Monitor\JobRunner;
 
+use JourneyMonitor\Monitor\Base\Logger;
 use JourneyMonitor\Monitor\Base\TestresultModel;
 use JourneyMonitor\Monitor\Base\TestresultRepository;
 
@@ -9,27 +10,35 @@ class Notifier
 {
     private $testresultRepository;
     private $sendMail;
+    private $logger;
 
-    public function __construct(TestresultRepository $testresultRepository, callable $sendMail)
+    public function __construct(TestresultRepository $testresultRepository, callable $sendMail, Logger $logger)
     {
         $this->testresultRepository = $testresultRepository;
         $this->sendMail = $sendMail;
+        $this->logger = $logger;
     }
 
     public function handle(TestresultModel $testresultModel)
     {
         // Stop notifying if the last 3 results were negative,
         // in order to avoid spamming the user
+        $this->logger->info('Getting last 3 restresults in order to decide notification should be sent:');
         $lastResults = $this->testresultRepository->getNLastTestresultsForTestcase(3, $testresultModel->getTestcase());
         $allFailed = true;
         $i = 0;
+        /** @var TestresultModel $testresultModelToCheck */
         foreach ($lastResults as $testresultModelToCheck) {
+            $this->logger->info(' Testresult: datetimeRun ' . $testresultModelToCheck->getDatetimeRun()->format(\DateTime::ISO8601) .
+                  ', id ' . $testresultModelToCheck->getId() .
+                  ', exitCode ' . $testresultModelToCheck->getExitCode());
             if ($testresultModelToCheck->getExitCode() === 0) {
                 $allFailed = false;
             }
             $i++;
         }
         if ($allFailed && $i > 2) {
+            $this->logger->info('Not notifying because this is the third negative testresult in a row.');
             return;
         }
 
@@ -104,7 +113,7 @@ EOT;
             }
 
             if (stristr($output, 'UnreachableBrowserException')) {
-                print('Not sending notification mail because we had a UnreachableBrowserException.');
+                $this->logger->info('Not sending notification mail because we had a UnreachableBrowserException.');
                 return;
             }
 

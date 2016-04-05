@@ -8,6 +8,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use JourneyMonitor\Monitor\Base\TestcaseRepository;
 use JourneyMonitor\Monitor\Base\TestresultRepository;
 use JourneyMonitor\Monitor\Base\EnvironmentInfo;
+use JourneyMonitor\Monitor\Base\Logger;
 use JourneyMonitor\Monitor\JobRunner\Runner;
 use JourneyMonitor\Monitor\JobRunner\Notifier;
 
@@ -42,6 +43,6 @@ $sendMail = function($receiver, $subject, $body) {
     print('Finished sending mail to ' . $receiver . '.' . "\n");
 };
 
-$notifier = new Notifier($testresultRepository, $sendMail);
+$notifier = new Notifier($testresultRepository, $sendMail, new Logger());
 $notifier->handle($testresultModel);
 print('Finished handling notifications.' . "\n");

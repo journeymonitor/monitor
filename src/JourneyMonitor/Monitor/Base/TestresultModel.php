@@ -55,6 +55,9 @@ class TestresultModel
         return $this->testcase;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getDatetimeRun()
     {
         return $this->datetimeRun;
