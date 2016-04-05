@@ -29,22 +29,22 @@ $testcaseRepository = new TestcaseRepository($dbConnection);
 $runner = new Runner($testcaseRepository, '/var/tmp', $testcaseId);
 $runner->prepare();
 
-$logger->info('About to start Selenium run...' . "\n");
+$logger->info('About to start Selenium run...');
 $testresultModel = $runner->run();
-$logger->info('Finished Selenium run, exit code was ' . $testresultModel->getExitCode() . "\n");
+$logger->info('Finished Selenium run, exit code was ' . $testresultModel->getExitCode());
 
-$logger->info('About to persist testresult ' . $testresultModel->getId() . '...' . "\n");
+$logger->info('About to persist testresult ' . $testresultModel->getId() . '...');
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 $testresultRepository->add($testresultModel);
-$logger->info('Finished persisting testresult ' . $testresultModel->getId() . '.' . "\n");
+$logger->info('Finished persisting testresult ' . $testresultModel->getId() . '.');
 
-$logger->info('About to handle notifications...' . "\n");
+$logger->info('About to handle notifications...');
 $sendMail = function($receiver, $subject, $body) use ($logger) {
-    $logger->info('Sending mail to ' . $receiver . '...' . "\n");
+    $logger->info('Sending mail to ' . $receiver . '...');
     mail($receiver, $subject, $body);
-    $logger->info('Finished sending mail to ' . $receiver . '.' . "\n");
+    $logger->info('Finished sending mail to ' . $receiver . '.');
 };
 
 $notifier = new Notifier($testresultRepository, $sendMail, new Logger());
 $notifier->handle($testresultModel);
-$logger->info('Finished handling notifications.' . "\n");
+$logger->info('Finished handling notifications.');

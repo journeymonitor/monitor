@@ -12,6 +12,6 @@ class Logger
         if (defined('PHPUNIT') && PHPUNIT === "yes") {
             return;
         }
-        print($text);
+        print($text . "\n");
     }
 }
