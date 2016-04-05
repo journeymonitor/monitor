@@ -14,7 +14,7 @@ class LogAnalyzer
         if (!$this->lineContainsScreenshot($line)) {
             return false;
         } else {
-            return substr($line, 92);
+            return substr($line, strpos($line, '[INFO] - captured screenshot: ') + 66);
         }
     }
 }
