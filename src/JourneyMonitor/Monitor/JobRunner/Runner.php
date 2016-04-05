@@ -68,6 +68,7 @@ class Runner
             $output,
             $exitCode
         );
+        $exitCode = (int)$exitCode;
 
         $har = file_get_contents('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-har');
 

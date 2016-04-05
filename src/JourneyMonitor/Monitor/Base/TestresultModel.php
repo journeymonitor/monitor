@@ -34,22 +34,28 @@ class TestresultModel
         ));
     }
 
-    public function __construct($id, TestcaseModel $testcase, $datetimeRun, $exitCode, Array $output, $failScreenshotFilename, $har)
+    public function __construct($id, TestcaseModel $testcase, \DateTime $datetimeRun, $exitCode, Array $output, $failScreenshotFilename, $har)
     {
-        $this->id = $id;
+        $this->id = (string)$id;
         $this->testcase = $testcase;
         $this->datetimeRun = $datetimeRun;
-        $this->exitCode = $exitCode;
+        $this->exitCode = (int)$exitCode;
         $this->output = $output;
-        $this->failScreenshotFilename = $failScreenshotFilename;
-        $this->har = $har;
+        $this->failScreenshotFilename = (string)$failScreenshotFilename;
+        $this->har = (string)$har;
     }
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return TestcaseModel
+     */
     public function getTestcase()
     {
         return $this->testcase;
@@ -63,21 +69,33 @@ class TestresultModel
         return $this->datetimeRun;
     }
 
+    /**
+     * @return int
+     */
     public function getExitCode()
     {
         return $this->exitCode;
     }
 
+    /**
+     * @return array
+     */
     public function getOutput()
     {
         return $this->output;
     }
 
+    /**
+     * @return string
+     */
     public function getFailscreenshotFilename()
     {
         return $this->failScreenshotFilename;
     }
 
+    /**
+     * @return string
+     */
     public function getHar()
     {
         return $this->har;
