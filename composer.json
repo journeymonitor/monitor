@@ -7,7 +7,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "davedevelopment/phpmig": "*",
+        "davedevelopment/phpmig": "^1.2.0",
         "pimple/pimple": "1.*",
         "guzzlehttp/guzzle": "~5.0"
     },
