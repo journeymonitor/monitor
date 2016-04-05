@@ -19,6 +19,11 @@ $environmentName = $environmentInfo->getName();
 
 $dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3');
 
+if (!is_object($dbConnection)) {
+    error_log('Problem with sqlite db connection: ' . print_r($dbConnection));
+    exit(1);
+}
+
 $testcaseRepository = new TestcaseRepository($dbConnection);
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 
