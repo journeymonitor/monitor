@@ -26,7 +26,11 @@ class TestresultRepository
         $stmt->bindValue(':failScreenshotFilename', $testresultModel->getFailScreenshotFilename());
         $stmt->bindValue(':har', $testresultModel->getHar());
 
-        $stmt->execute();
+        $success = $stmt->execute();
+
+        if (!$success) {
+            print('Error while persisting ' . $testresultModel->getId() . ':' . print_r($stmt->errorInfo(), true) . "\n");
+        }
     }
 
     public function getAll() {

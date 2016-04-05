@@ -61,7 +61,7 @@ class Runner
             '| tee -a /var/tmp/journeymonitor-run-testcase-' . $this->testcaseModel->getId() . '.log ; ' .
             'exit `cat /var/tmp/journeymonitor-testcase-run-' . $jobId . '-exit-status`';
 
-        echo $commandline . "\n";
+        print($commandline . "\n");
 
         exec(
             $commandline,

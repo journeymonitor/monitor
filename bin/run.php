@@ -25,14 +25,23 @@ $testcaseRepository = new TestcaseRepository($dbConnection);
 
 $runner = new Runner($testcaseRepository, '/var/tmp', $testcaseId);
 $runner->prepare();
-$testresultModel = $runner->run();
 
+print('About to start Selenium run...' . "\n");
+$testresultModel = $runner->run();
+print('Finished Selenium run.' . "\n");
+
+print('About to persist testresult ' . $testresultModel->getId() . '...' . "\n");
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 $testresultRepository->add($testresultModel);
+print('Finished persisting testresult ' . $testresultModel->getId() . '.' . "\n");
 
+print('About to handle notifications...' . "\n");
 $sendMail = function($receiver, $subject, $body) {
+    print('Sending mail to ' . $receiver . '...' . "\n");
     mail($receiver, $subject, $body);
+    print('Finished sending mail to ' . $receiver . '.' . "\n");
 };
 
 $notifier = new Notifier($testresultRepository, $sendMail);
 $notifier->handle($testresultModel);
+print('Finished handling notifications.' . "\n");
