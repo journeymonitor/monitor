@@ -24,7 +24,7 @@ $logger = new Logger();
 
 $dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3');
 
-$testcaseRepository = new TestcaseRepository($dbConnection);
+$testcaseRepository = new TestcaseRepository($dbConnection, $logger);
 
 $runner = new Runner($testcaseRepository, '/var/tmp', $testcaseId);
 $runner->prepare();

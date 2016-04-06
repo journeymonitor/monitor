@@ -23,7 +23,7 @@ class Notifier
     {
         // Stop notifying if the last 3 results were negative,
         // in order to avoid spamming the user
-        $this->logger->info('Getting last 3 restresults in order to decide notification should be sent:');
+        $this->logger->info('Getting last 3 restresults in order to decide if notifications should be sent:');
         $lastResults = $this->testresultRepository->getNLastTestresultsForTestcase(3, $testresultModel->getTestcase());
         $allFailed = true;
         $i = 0;

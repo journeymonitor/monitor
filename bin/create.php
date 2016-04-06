@@ -7,12 +7,21 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use JourneyMonitor\Monitor\Base\TestcaseRepository;
 use JourneyMonitor\Monitor\Base\EnvironmentInfo;
+use JourneyMonitor\Monitor\Base\Logger;
 use JourneyMonitor\Monitor\JobCreator\Creator;
 
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
-$testcaseRepository = new TestcaseRepository(new \PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3'));
+$logger = new Logger();
 
-$creator = new Creator($testcaseRepository, '/etc/cron.d', $environmentName);
-$creator->run();
+$testcaseRepository = new TestcaseRepository(new \PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3'), $logger);
+
+$creator = new Creator($testcaseRepository, '/etc/cron.d', $environmentName, $logger);
+$success = $creator->run();
+
+if ($success === true) {
+    exit(0);
+} else {
+    exit(1);
+}

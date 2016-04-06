@@ -3,9 +3,8 @@
 namespace JourneyMonitor\Monitor\JobCreator;
 
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamFile;
 use JourneyMonitor\Monitor\Base\TestcaseModel;
-use JourneyMonitor\Monitor\Base\TestcaseRepository;
+use JourneyMonitor\Monitor\Base\Logger;
 
 class CreatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +25,7 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
 
         $this->vfsRoot = vfsStream::setup('test');
 
-        $creator = new Creator($mockTestcaseRepository, vfsStream::url('test'), 'test');
+        $creator = new Creator($mockTestcaseRepository, vfsStream::url('test'), 'test', new Logger());
         $creator->run();
         $creator->run(); // Running twice to ensure that file content is completely overwritten
 

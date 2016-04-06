@@ -5,10 +5,12 @@ namespace JourneyMonitor\Monitor\Base;
 class TestcaseRepository
 {
     private $dbConnection;
+    private $logger;
 
-    public function __construct(\PDO $dbConnection)
+    public function __construct(\PDO $dbConnection, Logger $logger)
     {
         $this->dbConnection = $dbConnection;
+        $this->logger = $logger;
     }
 
     public function getById($id)
@@ -39,12 +41,24 @@ class TestcaseRepository
         $stmt->execute();
     }
 
+    /**
+     * @return array|bool Array of Testcases on success, false on error
+     */
     public function getAll() {
         $results = [];
         $sql = 'SELECT id, title, notifyEmail, cadence, script FROM testcases';
-        foreach ($this->dbConnection->query($sql) as $row) {
-            $results[] = new TestcaseModel($row['id'], $row['title'], $row['notifyEmail'], $row['cadence'], $row['script']);
+
+        $rows = $this->dbConnection->query($sql);
+        if ($rows === false) {
+            $this->logger->info('Error while running query "' . $sql . '" ');
+            $this->logger->info('Connection error info: "' . print_r($this->dbConnection->errorInfo(), true) . '" ');
+            return false;
+        } else {
+            foreach ($rows as $row) {
+                $results[] = new TestcaseModel($row['id'], $row['title'], $row['notifyEmail'], $row['cadence'], $row['script']);
+            }
         }
+
         return $results;
     }
 

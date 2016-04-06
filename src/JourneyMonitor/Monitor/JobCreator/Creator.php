@@ -2,22 +2,32 @@
 
 namespace JourneyMonitor\Monitor\JobCreator;
 
+use JourneyMonitor\Monitor\Base\Logger;
+
 class Creator
 {
     private $testcaseRepository;
     private $directory;
     private $environmentName;
+    private $logger;
     
-    public function __construct($testcaseRepository, $directory, $environmentName)
+    public function __construct($testcaseRepository, $directory, $environmentName, Logger $logger)
     {
         $this->testcaseRepository = $testcaseRepository;
         $this->directory = $directory;
         $this->environmentName = $environmentName;
+        $this->logger = $logger;
     }
     
     public function run()
     {
         $testcaseModels = $this->testcaseRepository->getAll();
+
+        if ($testcaseModels === false) {
+            $this->logger->info('Problem while fetching testcases, aborting.');
+            return false;
+        }
+
         foreach ($testcaseModels as $testcaseModel) {
             file_put_contents(
                 $this->directory . DIRECTORY_SEPARATOR . 'journeymonitor-run-testcase-'.$testcaseModel->getId(),
@@ -35,5 +45,7 @@ class Creator
                     "\n"
             );
         }
+
+        return true;
     }
 }
