@@ -4,6 +4,7 @@ namespace JourneyMonitor\Monitor\JobCreator;
 
 use org\bovigo\vfs\vfsStream;
 use JourneyMonitor\Monitor\Base\TestcaseModel;
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
 use JourneyMonitor\Monitor\Base\Logger;
 
 class CreatorTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +16,8 @@ class CreatorTest extends \PHPUnit_Framework_TestCase
         $stubTestcaseModel2 = new TestcaseModel('b', 't2', 'x@y.com', '*/15', 'foo b');
         $stubTestcaseModel3 = new TestcaseModel('c', 't3', 'x@y.com', '*/7', 'foo c');
         
-        $mockTestcaseRepository = $this->getMockBuilder('TestcaseRepository')
+        $mockTestcaseRepository = $this->getMockBuilder(TestcaseRepository::class)
+            ->disableOriginalConstructor()
             ->setMethods(array('getAll'))
             ->getMock();
         

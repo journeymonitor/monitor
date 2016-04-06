@@ -3,6 +3,7 @@
 namespace JourneyMonitor\Monitor\JobCreator;
 
 use JourneyMonitor\Monitor\Base\Logger;
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
 
 class Creator
 {
@@ -11,7 +12,7 @@ class Creator
     private $environmentName;
     private $logger;
     
-    public function __construct($testcaseRepository, $directory, $environmentName, Logger $logger)
+    public function __construct(TestcaseRepository $testcaseRepository, $directory, $environmentName, Logger $logger)
     {
         $this->testcaseRepository = $testcaseRepository;
         $this->directory = $directory;
