@@ -50,8 +50,8 @@ class TestcaseRepository
 
         $rows = $this->dbConnection->query($sql);
         if ($rows === false) {
-            $this->logger->info('Error while running query "' . $sql . '" ');
-            $this->logger->info('Connection error info: "' . print_r($this->dbConnection->errorInfo(), true) . '" ');
+            $this->logger->error('Error while running query "' . $sql . '" ');
+            $this->logger->error('Connection error info: "' . print_r($this->dbConnection->errorInfo(), true) . '" ');
             return false;
         } else {
             foreach ($rows as $row) {

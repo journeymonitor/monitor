@@ -13,18 +13,22 @@ require_once __DIR__.'/../vendor/autoload.php';
 use JourneyMonitor\Monitor\Base\TestresultRepository;
 use JourneyMonitor\Monitor\Base\TestcaseRepository;
 use JourneyMonitor\Monitor\Base\EnvironmentInfo;
+use JourneyMonitor\Monitor\Base\Logger;
 
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
+$logger = new Logger(Logger::TARGET_ERROR_LOG);
+
 $dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3');
 
 if (!is_object($dbConnection)) {
-    error_log('Problem with sqlite db connection: ' . print_r($dbConnection));
+    $logger->critical('Problem with sqlite db connection: ' . print_r($dbConnection));
+    $logger->critical('Aborting.');
     exit(1);
 }
 
-$testcaseRepository = new TestcaseRepository($dbConnection);
+$testcaseRepository = new TestcaseRepository($dbConnection, $logger);
 $testresultRepository = new TestresultRepository($dbConnection, $testcaseRepository);
 
 $testresultModelIterator = $testresultRepository->getIteratorForAllSince((new \DateTime())->modify('-2 hours'));
