@@ -3,7 +3,6 @@
 namespace JourneyMonitor\Monitor\JobRunner;
 
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamFile;
 use JourneyMonitor\Monitor\Base\TestcaseModel;
 use JourneyMonitor\Monitor\Base\TestcaseRepository;
 
@@ -14,7 +13,8 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
     public function test() {
         $stubTestcaseModel = new TestcaseModel('b', 'The Foo', 'han.solo@rebels.org', '*/15', 'foo-b');
 
-        $mockTestcaseRepository = $this->getMockBuilder('TestcaseRepository')
+        $mockTestcaseRepository = $this->getMockBuilder(TestcaseRepository::class)
+            ->disableOriginalConstructor()
             ->setMethods(array('getById'))
             ->getMock();
         

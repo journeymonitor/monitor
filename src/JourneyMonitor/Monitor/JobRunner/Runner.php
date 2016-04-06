@@ -2,6 +2,7 @@
 
 namespace JourneyMonitor\Monitor\JobRunner;
 
+use JourneyMonitor\Monitor\Base\TestcaseRepository;
 use JourneyMonitor\Monitor\Base\TestresultModel;
 
 class Runner
@@ -10,7 +11,7 @@ class Runner
     private $directory;
     private $testcaseModel;
 
-    public function __construct($testcaseRepository, $directory, $testcaseId)
+    public function __construct(TestcaseRepository $testcaseRepository, $directory, $testcaseId)
     {
         $this->testcaseRepository = $testcaseRepository;
         $this->directory = $directory;
