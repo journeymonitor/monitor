@@ -38,6 +38,11 @@ class Logger
         }
     }
 
+    public function error($text)
+    {
+        $this->info($text);
+    }
+
     public function critical($text)
     {
         $this->info($text);
