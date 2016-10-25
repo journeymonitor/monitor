@@ -2,3 +2,4 @@ vendor/
 bin/phpmig
 bin/phpunit
 .idea/
+docker/assets/infra/
