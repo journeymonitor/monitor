@@ -23,7 +23,7 @@ class Notifier
     {
         // Stop notifying if the last 3 results were negative,
         // in order to avoid spamming the user
-        $this->logger->info('Getting last 3 restresults in order to decide if notifications should be sent:');
+        $this->logger->info('Getting last 3 testresults in order to decide if notifications should be sent:');
         $lastResults = $this->testresultRepository->getNLastTestresultsForTestcase(3, $testresultModel->getTestcase());
         $allFailed = true;
         $i = 0;
@@ -45,21 +45,32 @@ class Notifier
         $sendmail = false;
         $subject = '';
         $body = '';
+        $reason = '';
 
-        // No valid Selenese
+        // No valid Selenese or page load timeout
         if ($testresultModel->getExitCode() === 4) {
 
+            $logAnalyzer = new LogAnalyzer();
             $sendmail = true;
-            $subject = '[JourneyMonitor] We couldn\'t run your "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
+            if ($logAnalyzer->pageloadTimeoutOccured($testresultModel->getOutput())) {
+                $subject = '[JourneyMonitor] Page load timeout during "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
+                $reason = ', but one of the pages of the journey took more than 30 seconds to load.';
+            } else {
+                $subject = '[JourneyMonitor] We couldn\'t run your "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
+                $reason = ', but the Selenese code is probably invalid.';
+            }
             $body = <<<EOT
 Hi there,
 
-at {datetimeRun}, we tried to run your test case named, "{title}", but the Selenese HTML code seems to be invalid.
+at {datetimeRun}, we tried to run your test case named, "{title}"{reason}
 
 Here is the output from our system:
 
 {output}
 
+Go to the details page of this testcase run:
+http://journeymonitor.com/testresults/{testresultId}
+                    
 Edit this testcase:
 http://journeymonitor.com/testcases/{testcaseId}
 
@@ -123,6 +134,7 @@ EOT;
             $body = str_replace('{exitCode}', $testresultModel->getExitCode(), $body);
             $body = str_replace('{testresultId}', $testresultModel->getId(), $body);
             $body = str_replace('{testcaseId}', $testresultModel->getTestcase()->getId(), $body);
+            $body = str_replace('{reason}', $reason, $body);
 
             $sendMail = $this->sendMail;
             $sendMail(

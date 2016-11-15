@@ -17,4 +17,13 @@ class LogAnalyzer
             return substr($line, strpos($line, '[INFO] - captured screenshot: ') + 66);
         }
     }
+    
+    public function pageloadTimeoutOccured($outputLines) {
+        foreach ($outputLines as $outputLine) {
+            if (preg_match('/^\[(.*?)\] \[ERROR\] (.*?) \[Error: TimeoutException - Timed out waiting for page load.$/', $outputLine)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
