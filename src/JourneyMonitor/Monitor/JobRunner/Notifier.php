@@ -75,7 +75,10 @@ Edit this testcase:
 http://journeymonitor.com/testcases/{testcaseId}
 
 Disable checks and notifications for this testcase:
-http://journeymonitor.com/testcases/#testcase-{testcaseId}
+http://journeymonitor.com/testcases/{testcaseId}/disable
+
+Re-enable checks and notifications for this testcase:
+http://journeymonitor.com/testcases/{testcaseId}/enable
 
 Sincerely,
 --
@@ -84,11 +87,18 @@ EOT;
         }
 
 
-        // The test case itself ran, but failed
+        // The test case itself ran, but failed (element not found, or different case of page load timeout
         if ($testresultModel->getExitCode() === 2 || $testresultModel->getExitCode() === 3) {
 
             $sendmail = true;
-            $subject = '⚠ [JourneyMonitor] Testcase "' . $testresultModel->getTestcase()->getTitle() . '" failed!';
+            $logAnalyzer = new LogAnalyzer();
+
+            if ($logAnalyzer->pageloadTimeoutOccured($testresultModel->getOutput())) {
+                $subject = '[JourneyMonitor] Page load timeout during "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
+            } else {
+                $subject = '⚠ [JourneyMonitor] Testcase "' . $testresultModel->getTestcase()->getTitle() . '" failed!';
+            }
+
             $body = <<<EOT
 Hi there,
 

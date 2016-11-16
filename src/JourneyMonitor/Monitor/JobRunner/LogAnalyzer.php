@@ -23,6 +23,9 @@ class LogAnalyzer
             if (preg_match('/^\[(.*?)\] \[ERROR\] (.*?) \[Error: TimeoutException - Timed out waiting for page load.$/', $outputLine)) {
                 return true;
             }
+            if (preg_match('/^\[(.*?)\] \[ERROR\] (.*?) \[Failure: Timed out waiting for page load.(.*?)$/', $outputLine)) {
+                return true;
+            }
         }
         return false;
     }

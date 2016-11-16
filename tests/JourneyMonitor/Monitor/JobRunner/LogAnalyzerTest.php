@@ -55,7 +55,39 @@ class LogAnalyzerTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($la->getScreenshotFilenameFromLine($line));
     }
     
-    public function testPageloadTimeoutOccured()
+    public function testPageloadTimeoutOccuredInErrorcode3Log() {
+        $output = <<<EOT
+{"port":19465}[2016-11-16 13:20:11.765 +01:00] [INFO] Start: Selenese Runner 2.6.0
+[2016-11-16 13:20:12.163 +01:00] [INFO] Command line arguments: [--new-instance] [--profile /var/tmp/journeymonitor-firefox-profile-9445]
+[2016-11-16 13:20:21.403 +01:00] [INFO] Initial window size: 1920x1200
+[2016-11-16 13:20:21.404 +01:00] [INFO] Initialized: FirefoxDriver
+[2016-11-16 13:20:21.542 +01:00] [INFO] Screenshot on fail directory: /var/tmp/journeymonitor-screenshots
+[2016-11-16 13:20:21.576 +01:00] [INFO] Timeout: 30000 ms
+[2016-11-16 13:20:22.310 +01:00] [INFO] Start: TestSuite[galeria-de-suche-nach-hose] (/var/tmp/journeymonitor-testcase-C45770FE-7F90-4348-AA0E-3C8175519EFF.html)
+[2016-11-16 13:20:22.358 +01:00] [INFO] Existing driver found.
+[2016-11-16 13:20:22.394 +01:00] [INFO] Current speed: 0 ms/command
+[2016-11-16 13:20:22.394 +01:00] [INFO] Start: TestCase[galeria-de-suche-nach-hose] (/var/tmp/journeymonitor-testcase-C45770FE-7F90-4348-AA0E-3C8175519EFF.html)
+[2016-11-16 13:20:22.395 +01:00] [INFO] baseURL: https://www.galeria-kaufhof.de
+[2016-11-16 13:20:22.432 +01:00] [INFO] <1> Command#1: open("/")
+[2016-11-16 13:20:31.707 +01:00] [INFO] - [Success] URL: [https://www.galeria-kaufhof.de/] / Title: [GALERIA Kaufhof: Shop für Mode, Spielwaren & Haushalt]
+[2016-11-16 13:20:31.707 +01:00] [INFO] - Cookie: _ga=[GA1.2.1253017344.1479298826] (domain=.galeria-kaufhof.de, path=/, expire=2017-01-28 13:20:26 +01:00)
+[2016-11-16 13:20:31.715 +01:00] [INFO] <2> Command#2: type("id=gk-header__search__input", "Hose")
+[2016-11-16 13:20:32.240 +01:00] [INFO] - [Success]
+[2016-11-16 13:20:32.240 +01:00] [INFO] <3> Command#3: clickAndWait("id=gk-header__search__button")
+[2016-11-16 13:21:42.990 +01:00] [INFO] - captured screenshot: /var/tmp/journeymonitor-screenshots/journeymonitor-testcase-C45770FE-7F90-4348-AA0E-3C8175519EFF_20161116_132102335_3_fail.png
+[2016-11-16 13:21:42.990 +01:00] [INFO] [[ATTACHMENT|/var/tmp/journeymonitor-screenshots/journeymonitor-testcase-C45770FE-7F90-4348-AA0E-3C8175519EFF_20161116_132102335_3_fail.png]]
+[2016-11-16 13:21:43.070 +01:00] [ERROR] Command#3: clickAndWait("id=gk-header__search__button") => [Failure: Timed out waiting for page load. / Command duration or timeout: 30.04 seconds / Build info: version: 'unknown', revision: 'unknown', time: 'unknown' / System info: host: 'v22015051223725490', ip: '37.120.178.155', os.name: 'Linux', os.arch: 'amd64', os.version: '3.13.0-96-generic', java.version: '1.8.0_111' / Driver info: org.openqa.selenium.firefox.FirefoxDriver / Capabilities [{applicationCacheEnabled=true, rotatable=false, handlesAlerts=true, databaseEnabled=true, version=45.4.0, platform=LINUX, nativeEvents=false, acceptSslCerts=true, webStorageEnabled=true, locationContextEnabled=true, browserName=firefox, takesScreenshot=true, javascriptEnabled=true, cssSelectorsEnabled=true}] / Session ID: e498cff3-e4b2-4f7d-9ea8-f11d6b562195] URL: [https://www.galeria-kaufhof.de/search?q=Hose] / Title: [Suchergebnis für Hose | GALERIA Kaufhof]
+[2016-11-16 13:21:43.071 +01:00] [ERROR] - Cookie: _ga=[GA1.2.1253017344.1479298826] (domain=.galeria-kaufhof.de, path=/, expire=2017-01-28 13:20:34 +01:00)
+[2016-11-16 13:21:43.079 +01:00] [INFO] End(1min/20,680sec): TestCase[galeria-de-suche-nach-hose] (/var/tmp/journeymonitor-testcase-C45770FE-7F90-4348-AA0E-3C8175519EFF.html)
+[2016-11-16 13:21:43.079 +01:00] [INFO] End(0,000sec): TestSuite[galeria-de-suche-nach-hose] (/var/tmp/journeymonitor-testcase-C45770FE-7F90-4348-AA0E-3C8175519EFF.html)
+[2016-11-16 13:21:43.080 +01:00] [INFO] Exit code: 3
+[2016-11-16 13:21:43.167 +01:00] [INFO] Quit: FirefoxDriver
+EOT;
+        $la = new LogAnalyzer();
+        $this->assertTrue($la->pageloadTimeoutOccured(explode("\n", $output)));
+    }
+
+    public function testPageloadTimeoutOccuredInErrorcode4Log()
     {
         $output = <<<EOT
 {"port":42648}[2016-11-15 05:30:05.778 +01:00] [INFO] Start: Selenese Runner 2.6.0
