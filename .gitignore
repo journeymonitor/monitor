@@ -5,3 +5,6 @@ bin/phpunit
 docker/assets/infra/
 /nbproject/private/
 nbproject/
+.buildpath
+.project
+.settings/
