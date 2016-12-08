@@ -19,6 +19,7 @@ mkdir /var/tmp/journeymonitor-firefox-profile-$XVFB_PID
     --height 1200 \
     --screenshot-on-fail /var/tmp/journeymonitor-screenshots \
     --strict-exit-code \
+    --timeout 120000 \
     $3
 STATUS=$?
 
