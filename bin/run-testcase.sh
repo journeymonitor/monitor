@@ -1,13 +1,17 @@
 #!/bin/bash
 
+# Starting the proxy as early as possible to minimize the risk of having the port taken by another proxy process
+/usr/bin/curl -s -X POST -d "port=$2" http://localhost:9090/proxy
+/usr/bin/curl -s -X PUT -d "captureHeaders=1" http://localhost:9090/proxy/$2/har
+
 /usr/bin/Xvfb :$1 -nolisten tcp -ac > /dev/null 2> /dev/null &
 XVFB_PID=$!
 
 export DISPLAY=:$1
 mkdir /var/tmp/journeymonitor-firefox-profile-$XVFB_PID
 
-/usr/bin/curl -s -X POST -d "port=$2" http://localhost:9090/proxy
-/usr/bin/curl -s -X PUT -d "captureHeaders=1" http://localhost:9090/proxy/$2/har
+# Firefoxes should not be started in parallel it seems
+sleep $[ ( $RANDOM % 10 ) + 1 ]s
 
 /usr/bin/java \
     -jar /opt/selenese-runner-java/selenese-runner.jar \

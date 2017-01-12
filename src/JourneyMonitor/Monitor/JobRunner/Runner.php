@@ -40,7 +40,12 @@ class Runner
         $found = false;
         while (!$found) {
             $proxyPort = mt_rand(9091, 60000);
-            if (!file_exists('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock')) {
+            // https://github.com/journeymonitor/monitor/issues/16:
+            // "browsermob proxy instance not starting every now and then because port is already taken"
+            // Only "reserving" a port via the lock file is not enough because browsermob also grabs a lot of
+            // other ports while requests run over its proxy childs
+            if (   !file_exists('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock')
+                && shell_exec('/usr/bin/lsof -P -i:' . $proxyPort . ' -n -sTCP:LISTEN 2>&1 | /usr/bin/wc -l') === '0\n') {
                 $found = true;
                 touch('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock');
             }
@@ -48,7 +53,6 @@ class Runner
 
         $output = [];
         $exitCode = 0;
-        sleep(mt_rand(0, 10)); // Firefoxes should not be started in parallel it seems
         $datetimeRun = new \DateTime('now');
 
         $commandline = '/bin/bash ' .
