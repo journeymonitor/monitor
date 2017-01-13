@@ -45,7 +45,7 @@ class Runner
             // Only "reserving" a port via the lock file is not enough because browsermob also grabs a lot of
             // other ports while requests run over its proxy childs
             if (   !file_exists('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock')
-                && shell_exec('/usr/bin/lsof -P -i:' . $proxyPort . ' -n -sTCP:LISTEN 2>&1 | /usr/bin/wc -l') === '0\n') {
+                && shell_exec('/usr/bin/lsof -P -i:' . $proxyPort . ' -n -sTCP:LISTEN 2>&1 | /usr/bin/wc -l') === "0\n") {
                 $found = true;
                 touch('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock');
             }
