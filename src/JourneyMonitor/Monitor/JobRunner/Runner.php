@@ -37,20 +37,6 @@ class Runner
             }
         }
 
-        $found = false;
-        while (!$found) {
-            $proxyPort = mt_rand(9091, 60000);
-            // https://github.com/journeymonitor/monitor/issues/16:
-            // "browsermob proxy instance not starting every now and then because port is already taken"
-            // Only "reserving" a port via the lock file is not enough because browsermob also grabs a lot of
-            // other ports while requests run over its proxy childs
-            if (   !file_exists('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock')
-                && shell_exec('/usr/bin/lsof -P -i:' . $proxyPort . ' -n -sTCP:LISTEN 2>&1 | /usr/bin/wc -l') === "0\n") {
-                $found = true;
-                touch('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock');
-            }
-        }
-
         $output = [];
         $exitCode = 0;
         $datetimeRun = new \DateTime('now');
@@ -58,8 +44,6 @@ class Runner
         $commandline = '/bin/bash ' .
             __DIR__ . DIRECTORY_SEPARATOR . '../../../../bin/run-testcase.sh ' .
             $jobId .
-            ' ' .
-            $proxyPort .
             ' ' .
             $this->directory . DIRECTORY_SEPARATOR . 'journeymonitor-testcase-' . $this->testcaseModel->getId() . '.html ' .
             '2>&1 ' .
@@ -79,7 +63,6 @@ class Runner
 
         unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-har');
         unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '.lock');
-        unlink('/var/tmp/journeymonitor-testcase-run-proxyport-' . $proxyPort . '.lock');
         unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-exit-status');
 
         if ($exitCode === 1 && $retry < 5) { // Internal selenium-runner error, retry
