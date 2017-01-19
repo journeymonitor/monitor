@@ -1,13 +1,12 @@
 <?php
 
 use \Phpmig\Adapter;
-use \Pimple;
 use JourneyMonitor\Monitor\Base\EnvironmentInfo;
 
 $environmentInfo = new EnvironmentInfo();
 $environmentName = $environmentInfo->getName();
 
-$container = new Pimple();
+$container = new \Pimple();
 
 $container['db'] = $container->share(function() use ($environmentName) {
     $dbh = new \PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environmentName . '.sqlite3');
