@@ -126,9 +126,9 @@ EOT;
     {
         $logContent = file_get_contents(__DIR__ . '/../../../fixtures/selenese-runner.log');
 
-        $srlas = new LogAnalyzer();
+        $la = new LogAnalyzer();
 
-        $actualListOfUrls = $srlas->getUrlsOfRequestedPages($logContent);
+        $actualListOfUrls = $la->getUrlsOfRequestedPages($logContent);
         $expectedListOfUrls = [
             0 => 'https://www.galeria-kaufhof.de/',
             1 => 'https://www.galeria-kaufhof.de/search?q=hose',
