@@ -121,4 +121,20 @@ EOT;
         $la = new LogAnalyzer();
         $this->assertTrue($la->pageloadTimeoutOccured(explode("\n", $output)));
     }
+
+    public function testGetUrlsOfRequestedPages()
+    {
+        $logContent = file_get_contents(__DIR__ . '/../../../fixtures/selenese-runner.log');
+
+        $srlas = new LogAnalyzer();
+
+        $actualListOfUrls = $srlas->getUrlsOfRequestedPages($logContent);
+        $expectedListOfUrls = [
+            0 => 'https://www.galeria-kaufhof.de/',
+            1 => 'https://www.galeria-kaufhof.de/search?q=hose',
+            2 => 'https://www.galeria-kaufhof.de/#foo'
+        ];
+
+        $this->assertEquals($expectedListOfUrls, $actualListOfUrls);
+    }
 }
