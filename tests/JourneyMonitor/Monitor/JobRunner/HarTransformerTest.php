@@ -23,5 +23,8 @@ class HarTransformerTest extends PHPUnit_Framework_TestCase
         $ht = new HarTransformer();
 
         $this->assertEquals($transformedHar, $ht->splitIntoMultiplePages($originalHar, $urls));
+
+        // Verifies that the operation is idempotent
+        $this->assertEquals($transformedHar, $ht->splitIntoMultiplePages($transformedHar, $urls));
     }
 }
