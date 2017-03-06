@@ -18,7 +18,7 @@ class Runner
         $this->testcaseModel = $this->testcaseRepository->getById($testcaseId);
     }
     
-    public function prepare()
+    public function prepareSeleneseScript()
     {
         file_put_contents(
             $this->directory . DIRECTORY_SEPARATOR . 'journeymonitor-testcase-' . $this->testcaseModel->getId() . '.html',
@@ -28,6 +28,8 @@ class Runner
     
     public function run($retry = 0)
     {
+        $this->prepareSeleneseScript();
+
         $found = false;
         while (!$found) {
             $jobId = mt_rand(1, 999999999);
@@ -61,6 +63,13 @@ class Runner
 
         $har = file_get_contents('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-har');
 
+        $la = new LogAnalyzer();
+        $ht = new HarTransformer();
+
+        $urls = $la->getUrlsOfRequestedPages($output);
+
+        $transformedHar = $ht->splitIntoMultiplePages($har, $urls);
+
         unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-har');
         unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '.lock');
         unlink('/var/tmp/journeymonitor-testcase-run-' . $jobId . '-exit-status');
@@ -70,7 +79,6 @@ class Runner
             print('Internal selenium-runner error, trying again...' . "\n");
             return $this->run($retry + 1);
         } else {
-            $la = new LogAnalyzer();
             $failScreenshotFilenameWithoutExtension = null;
             foreach ($output as $line) {
                 if ($la->lineContainsScreenshot($line)) {
@@ -85,7 +93,7 @@ class Runner
                 }
             }
 
-            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilenameWithoutExtension, (string)$har);
+            return new TestresultModel(TestresultModel::generateId(), $this->testcaseModel, $datetimeRun, $exitCode, $output, $failScreenshotFilenameWithoutExtension, $transformedHar);
         }
     }
 }

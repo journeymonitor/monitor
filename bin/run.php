@@ -27,7 +27,6 @@ $dbConnection = new PDO('sqlite:/var/tmp/journeymonitor-monitor-' . $environment
 $testcaseRepository = new TestcaseRepository($dbConnection, $logger);
 
 $runner = new Runner($testcaseRepository, '/var/tmp', $testcaseId);
-$runner->prepare();
 
 $logger->info('About to start Selenium run...');
 $testresultModel = $runner->run();

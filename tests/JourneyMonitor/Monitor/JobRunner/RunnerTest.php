@@ -10,7 +10,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
 {
     private $vfsRoot;
     
-    public function test() {
+    public function testPrepare() {
         $stubTestcaseModel = new TestcaseModel('b', 'The Foo', 'han.solo@rebels.org', '*/15', 'foo-b');
 
         $mockTestcaseRepository = $this->getMockBuilder(TestcaseRepository::class)
@@ -26,7 +26,7 @@ class RunnerTest extends \PHPUnit_Framework_TestCase
         $this->vfsRoot = vfsStream::setup('test');
 
         $runner = new Runner($mockTestcaseRepository, vfsStream::url('test'), 'b');
-        $runner->prepare();
+        $runner->prepareSeleneseScript();
 
         $this->assertSame(
             'foo-b',

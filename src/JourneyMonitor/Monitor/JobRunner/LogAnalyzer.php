@@ -37,7 +37,7 @@ class LogAnalyzer
      * those that the Selenium script navigated to, not secondary HTTP requests which resulted from these page loads.
      *
      * @param string $logContent
-     * @return Array|String Array of requested URLs
+     * @return string[] Array of requested URLs
      */
     public function getUrlsOfRequestedPages($logContent)
     {
