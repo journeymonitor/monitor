@@ -5,7 +5,6 @@
 XVFB_PID=$!
 
 export DISPLAY=:$1
-mkdir /var/tmp/journeymonitor-firefox-profile-$XVFB_PID
 
 # Launching a browsermob proxy, ensuring that we don't work with a port that is already taken
 PROXY_STARTED=0
@@ -26,10 +25,9 @@ sleep $[ ( $RANDOM % 10 ) + 1 ]s
 
 /usr/bin/java \
     -jar /opt/selenese-runner-java/selenese-runner.jar \
-    --driver firefox \
+    --driver chrome \
+    --chromedriver /usr/lib/chromium-browser/chromedriver \
     --proxy localhost:$PROXY_PORT \
-    --cli-args "--new-instance" \
-    --cli-args "--profile /var/tmp/journeymonitor-firefox-profile-$XVFB_PID" \
     --width 1920 \
     --height 1200 \
     --screenshot-on-fail /var/tmp/journeymonitor-screenshots \
@@ -43,5 +41,4 @@ echo $STATUS > /var/tmp/journeymonitor-testcase-run-$1-exit-status
 /usr/bin/curl -s http://localhost:9090/proxy/$PROXY_PORT/har > /var/tmp/journeymonitor-testcase-run-$1-har
 /usr/bin/curl -s -X DELETE http://localhost:9090/proxy/$PROXY_PORT
 
-rm -rf /var/tmp/journeymonitor-firefox-profile-$XVFB_PID
 kill $XVFB_PID
