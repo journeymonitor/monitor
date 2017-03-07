@@ -1,6 +1,7 @@
 #!/bin/bash
 
-/usr/bin/Xvfb :$1 -nolisten tcp -ac > /dev/null 2> /dev/null &
+# A screen with 24bit color depth is needed because else libGL bails out when starting chromium-browser
+/usr/bin/Xvfb :$1 -screen 0 1920x1200x24 -nolisten tcp -ac > /dev/null 2> /dev/null &
 XVFB_PID=$!
 
 export DISPLAY=:$1
