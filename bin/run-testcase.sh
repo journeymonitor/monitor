@@ -32,7 +32,7 @@ sleep $[ ( $RANDOM % 10 ) + 1 ]s
     --screenshot-on-fail /var/tmp/journeymonitor-screenshots \
     --strict-exit-code \
     --timeout 240000 \
-    $2
+    $2 2>&1
 STATUS=$?
 
 echo $STATUS > /var/tmp/journeymonitor-testcase-run-$1-exit-status
