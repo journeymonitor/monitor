@@ -119,16 +119,15 @@ class NotifierTest extends \PHPUnit_Framework_TestCase
 
         $actualSubject = null;
         $actualBody = null;
-        $sendMail = function($receiver, $subject, $body) use (&$actualSubject, &$actualBody) {
-            $actualSubject = $subject;
-            $actualBody = $body;
+        $didSend = false;
+        $sendMail = function($receiver, $subject, $body) use (&$didSend) {
+            $didSend = true;
         };
 
         $notifier = new Notifier($mockTestresultRepository, $sendMail, new Logger());
         $notifier->handle($testresultModel);
 
-        $this->assertSame('[JourneyMonitor] Page load timeout during "tc" testcase.', $actualSubject);
-        $this->assertContains('we tried to run your test case named, "tc", but one of the pages of the journey took more than 30 seconds to load.', $actualBody);
+        $this->assertFalse($didSend);
     }
     
     public function testPageloadTimeoutForErrorcode3YieldsCorrectMail() {

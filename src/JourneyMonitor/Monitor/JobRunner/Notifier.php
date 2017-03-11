@@ -49,13 +49,12 @@ class Notifier
 
         // No valid Selenese or page load timeout
         if ($testresultModel->getExitCode() === 4) {
-
             $logAnalyzer = new LogAnalyzer();
-            $sendmail = true;
             if ($logAnalyzer->pageloadTimeoutOccured($testresultModel->getOutput())) {
                 $subject = '[JourneyMonitor] Page load timeout during "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
                 $reason = ', but one of the pages of the journey took more than 30 seconds to load.';
             } else {
+                $sendmail = true;
                 $subject = '[JourneyMonitor] We couldn\'t run your "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
                 $reason = ', but the Selenese code is probably invalid.';
             }
