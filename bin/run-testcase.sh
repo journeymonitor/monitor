@@ -27,7 +27,7 @@ sleep $[ ( $RANDOM % 10 ) + 1 ]s
     --driver firefox \
     --cli-args "--new-instance" \
     --proxy localhost:$PROXY_PORT \
-    --no-proxy tiles-cloudfront.cdn.mozilla.net,search.services.mozilla.com,shavar.services.mozilla.com,tracking-protection.cdn.mozilla.net,aus5.mozilla.org,tiles.services.mozilla.com,location.services.mozilla.com,ocsp.digicert.com \
+    --no-proxy tiles-cloudfront.cdn.mozilla.net,search.services.mozilla.com,shavar.services.mozilla.com,tracking-protection.cdn.mozilla.net,aus5.mozilla.org,tiles.services.mozilla.com,location.services.mozilla.com,ocsp.digicert.com,ciscobinary.openh264.org \
     --width 1920 \
     --height 1200 \
     --screenshot-on-fail /var/tmp/journeymonitor-screenshots \
