@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# A screen with 24bit color depth is needed because else libGL bails out when starting chromium-browser
 /usr/bin/Xvfb :$1 -screen 0 1920x1200x24 -nolisten tcp -ac > /dev/null 2> /dev/null &
 XVFB_PID=$!
 
@@ -25,14 +24,14 @@ sleep $[ ( $RANDOM % 10 ) + 1 ]s
 
 /usr/bin/java \
     -jar /opt/selenese-runner-java/selenese-runner.jar \
-    --driver chrome \
-    --chromedriver /usr/lib/chromium-browser/chromedriver \
+    --driver firefox \
+    --cli-args "--new-instance" \
     --proxy localhost:$PROXY_PORT \
     --width 1920 \
     --height 1200 \
     --screenshot-on-fail /var/tmp/journeymonitor-screenshots \
     --strict-exit-code \
-    --timeout 120000 \
+    --timeout 240000 \
     $2
 STATUS=$?
 
