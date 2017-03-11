@@ -27,7 +27,7 @@ sleep $[ ( $RANDOM % 10 ) + 1 ]s
     --driver firefox \
     --cli-args "--new-instance" \
     --proxy localhost:$PROXY_PORT \
-    --no-proxy mozilla.com,mozilla.org,mozilla.net \
+    --no-proxy mozilla.com,mozilla.org,mozilla.net,digicert.com \
     --width 1920 \
     --height 1200 \
     --screenshot-on-fail /var/tmp/journeymonitor-screenshots \
