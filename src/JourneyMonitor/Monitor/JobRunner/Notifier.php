@@ -51,8 +51,8 @@ class Notifier
         if ($testresultModel->getExitCode() === 4) {
             $logAnalyzer = new LogAnalyzer();
             if ($logAnalyzer->pageloadTimeoutOccured($testresultModel->getOutput())) {
-                $subject = '[JourneyMonitor] Page load timeout during "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
-                $reason = ', but one of the pages of the journey took more than 30 seconds to load.';
+                // To many false positives for this case, see https://github.com/journeymonitor/monitor/issues/18
+                $sendmail = false;
             } else {
                 $sendmail = true;
                 $subject = '[JourneyMonitor] We couldn\'t run your "' . $testresultModel->getTestcase()->getTitle() . '" testcase.';
