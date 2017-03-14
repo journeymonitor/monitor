@@ -51,7 +51,7 @@ class Notifier
         if ($testresultModel->getExitCode() === 4) {
             $logAnalyzer = new LogAnalyzer();
             if ($logAnalyzer->pageloadTimeoutOccured($testresultModel->getOutput())) {
-                // To many false positives for this case, see https://github.com/journeymonitor/monitor/issues/18
+                // Too many false positives for this case, see https://github.com/journeymonitor/monitor/issues/18
                 $sendmail = false;
             } else {
                 $sendmail = true;
